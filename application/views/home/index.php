@@ -20,7 +20,7 @@
 
     <div class="row">
         <div class="col-md-8">
-            <img class="img-responsive" src="http://placehold.it/2000x3000" alt="">
+            <img class="img-responsive" src="http://placehold.it/500x400" alt="">
         </div>
         <div class="col-md-4">
             <form class="form-horizontal">

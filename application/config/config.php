@@ -29,10 +29,8 @@ define('URL', 'http://localhost/SIL3/Projet/');
  * Configuration for: Database
  * This is the place where you define your database credentials, database type etc.
  */
-define('DB_DSN', 'sqlite:db.sqlite');
-
-define('DB_TYPE', 'mysql');
+define('DB_TYPE', 'sqlite:db.sqlite');
 define('DB_HOST', '127.0.0.1');
 define('DB_NAME', 'galeriephotomvc');
 define('DB_USER', 'root');
-define('DB_PASS', 'Bcdftp92');
+define('DB_PASS', 'password');
