@@ -34,35 +34,27 @@ class CommentModel
      * Update an image votes
      * @param string $id Image ID
      */
-    public function getVotes($id){
-        $id = strip_tags($id;)
-
+    public function updateVotes($id, $vote){
+        $id = strip_tags($id);
         $vote = $this->getVotes($id);
 
-		if($vote=='like'){
+		if($vote == 'like') {
 			$likes = $vote->likes + 1;
-
-            $sql = "UPDATE note set positive='$positive',negative='$note->negative',idImg='$note->idImg' WHERE id='$note->id'";
-            $query = $this->db->prepare($sql);
-            $parameters = array(':id' => $id);
-
-            $query->execute($parameters);
-
-            return $query->fetchAll();
+            return $likes;
         }
 
-        else{
+        elseif($vote == 'dislike') {
             $likes = $vote->likes - 1;
-            $sql = "UPDATE note set positive='$note->positive',negative='$negative',idImg='$note->idImg' WHERE id='$note->id'";
-            $query = $this->db->prepare($sql);
-            $parameters = array(':id' => $id);
-
-            $query->execute($parameters);
-
-            return $query->fetchAll();
-
+            return $likes;
         }
 
-    }
+        $sql = "UPDATE votes SET likes= :likes  WHERE id= :id";
+        $query = $this->db->prepare($sql);
+        $parameters = array(':id' => $id, ':likes' => $likes);
+
+        $query->execute($parameters);
+
+        return $query->fetchAll();
+        }
 
 }
