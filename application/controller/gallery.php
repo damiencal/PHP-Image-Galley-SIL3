@@ -78,7 +78,7 @@ class Gallery extends Controller
 
     /**
      * ACTION: addImage
-     * This method handles what happens when you move to http://yourproject/songs/addalbum
+     * This method handles what happens when you move to http://yourproject/gallery/addImage
      * IMPORTANT: This is not a normal page, it's an ACTION. This is where the "add a album" form on album/index
      * directs the user after the form submit. This method handles all the POST data from the form and then redirects
      * the user back to album/index via the last line: header(...)

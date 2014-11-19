@@ -14,35 +14,114 @@ class GalleryModel
         }
     }
 
-		/////////////////////////////////////////////////IMAGE////////////////////////////////////////////
-
+ /////////////////////////////////////////////// GETTERS //////////////////////////////////////////////////////////
 		/**
-		 * Returns all image IDs
+		 * Return image from an ID
 		 */
 
     public function getImage($id){
-        $sql = "SELECT * FROM image WHERE id = $id limit 1";
+        $id = strip_tags($id;)
+
+        $sql = "SELECT * FROM image WHERE id = :id LIMIT 1";
         $query = $this->db->prepare($sql);
-        $query->execute();
+        $parameters = array(':id' => $id);
+
+        $query->execute($parameters);
 
         return $query->fetchAll();
         }
 
-		/**
-		 * Retourne une image au hasard
+ 		/**
+		 * Return random image
 		 */
     public function getRandomImage() {
-		      $id=rand(1,$this->count()-1);
-		      return $this->getImage($id);
+        $id=rand(1,$this->count()-1);
+
+        return $this->getImage($id);
 		}
 
-		/**
-		 * Retourne l'objet de la premiere image
-		 */
-		function getFirstImage() {
-			return $this->getImage(1);
+    /**
+    * Return first image
+    */
+    public function getFirstImage() {
+        return $this->getImage(1);
+		}
+    /**
+    * Return last image
+    */
+    public function getLastImage() {
+
+        $sql = "SELECT id FROM image ORDER BY id DESC LIMIT 1";
+        $query = $this->db->prepare($sql);
+        $query->execute();
+
+        return $query->fetchAll();
 		}
 
+ /////////////////////////////////////////////// SETTERS //////////////////////////////////////////////////////////
+	/**
+     * Add a image to database
+     * @param string $path Path
+     * @param string $category Category
+     * @param string $comment Comment
+     */
+    public function addImage($id, $name, $path, $category, $comment) {
+        $id = strip_tags($id);
+        $name = strip_tags($name);
+        $path = strip_tags($path);
+        $category = strip_tags($category);
+        $comment = strip_tags($comment);
+
+        $sql = "INSERT INTO image (path, category, comment) VALUES (:path, :category, :comment)";
+        $query = $this->db->prepare($sql);
+        $query->execute(array(':name' => $name, ':path' => $path, ':category' => $category, ':comment' => $comment));
+
+	}
+
+    /**
+     * Update an image from database
+     * @param string $path Path
+     * @param string $category Category
+     * @param string $comment Comment
+     */
+	public function updateImage($id, $name, $path, $category, $comment) {
+        $id = strip_tags($id);
+        $name = strip_tags($name);
+        $path = strip_tags($path);
+        $category = strip_tags($category);
+        $comment = strip_tags($comment);
+
+        $sql = "UPDATE image SET name= :name, path= :path, category= :category, comment= :comment WHERE id= :id";
+        $query = $this->db->prepare($sql);
+        $parameters = array(':name' => $name, ':path' => $path, ':category' => $category, ':comment' => $comment, ':id' => $id);
+
+        $query->execute($parameters);
+    }
+
+    /**
+     * Delete an image from database
+     * @param string $path Path
+     * @param string $category Category
+     * @param string $comment Comment
+     */
+    public function deleteImage($id){
+        $id = strip_tags($id);
+
+        $sql = "DELETE FROM image WHERE id = :id";
+        $query = $this->db->prepare($sql);
+        $query->execute(array(':id' => $id));
+
+
+		}
+
+}
+
+
+
+
+###############
+
+/*
 		/**
 		 * Retourne l'image suivante d'une image
 		 */
@@ -107,20 +186,6 @@ class GalleryModel
 
 
 		/**
-		 * Ajouter une nouvelle image
-		 */
-		function createImg($img) {
-			return $this->db->insertImg($img);
-		}
-
-		/**
-		 * Met à jour une image
-		 */
-		function updateImg($img) {
-			return $this->db->updateImg("image", $img);
-		}
-
-		/**
 		 * Recupere toutes les categories d'image en base
 		 */
 		function getCategories() {
@@ -138,15 +203,3 @@ class GalleryModel
 		function getNbImageCategory($category) {
 			return $this->db->doCount("image","WHERE category = '$category'");
 		}
-		function getLastImage() {
-		return requeteRechercheSimple("SELECT id FROM image ORDER BY id DESC LIMIT 1","Image");
-		}
-		/**
-		 * Supprime une image
-		 */
-		function removeImage($id_image){
-			 $this->db->requeteSimple("DELETE FROM image WHERE id = $id_image");
-		}
-
-
-}

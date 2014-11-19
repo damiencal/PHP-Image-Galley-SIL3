@@ -14,6 +14,16 @@ class Model
         }
     }
 
+
+     public function getAmountOfSongs()
+{
+$sql = "SELECT COUNT(id) AS amount_of_songs FROM song";
+$query = $this->db->prepare($sql);
+$query->execute();
+// fetch() is the PDO method that get exactly one result
+return $query->fetch()->amount_of_songs;
+}
+
 ########################################
 
 
@@ -77,22 +87,7 @@ class Model
 
 	}
 
-	/**
-     * Add a image to database
-     * @param string $path Path
-     * @param string $category Category
-     * @param string $comment Comment
-     */
-	function insertImg($img) {
-        $path = strip_tags($path);
-        $category = strip_tags($category);
-        $comment = strip_tags($comment);
 
-        $sql = "INSERT INTO image (path, category, comment) VALUES (:path, :category, :comment)";
-        $query = $this->db->prepare($sql);
-        $query->execute(array(':path' => $path, ':category' => $category, ':comment' => $comment));
-
-	}
 
     /**
      * Add a album to database
@@ -113,16 +108,7 @@ class Model
      * @param string $category Category
      * @param string $comment Comment
      */
-	function updateImg($img) {
-        $id = strip_tags($id);
-        $path = strip_tags($path);
-        $category = strip_tags($category);
-        $comment = strip_tags($comment);
 
-        $sql = "UPDATE image SET path='$path'', category='$category'', comment='$comment' WHERE id='$id'";
-        $query = $this->db->prepare($sql);
-        $query->execute(array(':path' => $path, ':category' => $category, ':comment' => $comment, ':id' => $id));
-	}
 
     /**
      * Update a comment to database
