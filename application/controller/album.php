@@ -25,7 +25,7 @@ class Album extends Controller
         $amount_of_pics = $stats_model->getAmountOfPictures();
         // load views.
         require 'application/views/_templates/header.php';
-        require 'application/views/home/index.php';
+        require 'application/views/album/index.php';
         require 'application/views/_templates/footer.php';
     }
     /**

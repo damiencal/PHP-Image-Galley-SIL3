@@ -19,17 +19,17 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">PHP Image Gallery SIL3</a>
+            <a class="navbar-brand" href="<?php echo URL; ?>">PHP Image Gallery SIL3</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Home</a>
+                <li><a href="<?php echo URL; ?>">Home</a>
                 </li>
                 <li><a href="<?php echo URL; ?>home/about">About</a>
                 </li>
                 <li><a href="<?php echo URL; ?>gallery">Gallery</a>
                 </li>
-                <li><a href="<?php echo URL; ?>contact">Contact</a>
+                <li><a href="<?php echo URL; ?>album">Album</a>
                 </li>
             </ul>
         </div>

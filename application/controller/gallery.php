@@ -12,9 +12,9 @@ class Gallery extends Controller
 {
     /**
      * PAGE: gallery
-     * This method handles what happens when you move to http://yourproject/home/exampletwo
+     * This method handles what happens when you move to http://yourproject/gallery/index
      */
-    public function gallery()
+    public function index()
     {
 
 		# Retourne une image au hazard
@@ -72,7 +72,7 @@ class Gallery extends Controller
 		}
         // load views. within the views we can echo out $songs and $amount_of_songs easily
         require 'application/views/_templates/header.php';
-        require 'application/views/home/gallery.php';
+        require 'application/views/gallery/index.php';
         require 'application/views/_templates/footer.php';
     }
 }
