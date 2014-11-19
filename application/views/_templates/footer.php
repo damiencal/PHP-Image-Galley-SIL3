@@ -5,6 +5,7 @@
         <p><a href='http://opensource.org/licenses/MIT'> MIT Licence</p>
     </footer>
         <!-- JavaScript -->
+        <script src="<?php echo URL; ?>public/js/jquery.min.js"></script>
         <script src="<?php echo URL; ?>public/js/angularjs.min.js"></script>
         <script src="<?php echo URL; ?>public/js/bootstrap.min.js"></script>
     </body>
