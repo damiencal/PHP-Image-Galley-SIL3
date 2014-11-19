@@ -28,8 +28,8 @@ Make sure you configure the right Directory Options for the mod_rewrite module i
         ServerName localhost
 
         ServerAdmin webmaster@localhost
-        DocumentRoot /var/www/html
-        <Directory /var/www>
+        DocumentRoot /var/www/
+        <Directory /var/www/>
                 Options FollowSymLinks
                 AllowOverride All
         </Directory>
