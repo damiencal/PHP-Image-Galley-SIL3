@@ -25,7 +25,7 @@
             <ul class="nav navbar-nav">
                 <li class="active"><a href="#">Home</a>
                 </li>
-                <li><a href="<?php echo URL; ?>about">About</a>
+                <li><a href="<?php echo URL; ?>home/about">About</a>
                 </li>
                 <li><a href="<?php echo URL; ?>gallery">Gallery</a>
                 </li>
