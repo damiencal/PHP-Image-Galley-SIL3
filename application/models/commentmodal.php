@@ -14,28 +14,55 @@ class CommentModel
         }
     }
 
-########################################
+	/**
+     * Return an image votes
+     * @param string $id Image ID
+     */
+    public function getVotes($id){
+        $id = strip_tags($id;)
 
-		/**
-		 * Retourne les notes pour un idImg doné
-		 * @param int $idImg
-		 */
-		function getNote($idImg){
-			return $this->db->getNoteByIdImg("note",$idImg);
-		}
+        $sql = "SELECT * FROM votes WHERE id = :id LIMIT 1";
+        $query = $this->db->prepare($sql);
+        $parameters = array(':id' => $id);
 
+        $query->execute($parameters);
 
-		/**
-		 * Met a jour la note d'une image
-		 * @param String $val indique la note(Pos/Neg) a modifier
-		 * @param int $idImg id de l'image
-		 */
-		function updateNote($val, $idImg){
-			$note = $this->getNote($idImg);
-			$this->db->updateNote("note",$val, $note);
-		}
+        return $query->fetchAll();
+    }
 
+	/**
+     * Update an image votes
+     * @param string $id Image ID
+     */
+    public function getVotes($id){
+        $id = strip_tags($id;)
 
+        $vote = $this->getVotes($id);
 
+		if($vote=='like'){
+			$likes = $vote->likes + 1;
+
+            $sql = "UPDATE note set positive='$positive',negative='$note->negative',idImg='$note->idImg' WHERE id='$note->id'";
+            $query = $this->db->prepare($sql);
+            $parameters = array(':id' => $id);
+
+            $query->execute($parameters);
+
+            return $query->fetchAll();
+        }
+
+        else{
+            $likes = $vote->likes - 1;
+            $sql = "UPDATE note set positive='$note->positive',negative='$negative',idImg='$note->idImg' WHERE id='$note->id'";
+            $query = $this->db->prepare($sql);
+            $parameters = array(':id' => $id);
+
+            $query->execute($parameters);
+
+            return $query->fetchAll();
+
+        }
+
+    }
 
 }
