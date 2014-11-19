@@ -14,74 +14,21 @@ class Model
         }
     }
 
+########################################
 
-    	/**
-	 * Permet de réaliser des requetes INSERT, DELETE et UPDATE
-     * @param string $val Value
-     * @param string $note Note
-	 */
-    public function requeteSimple($query) {
-		$results = null;
-		try {
-			$sth = $this->db->exec($query);
-			$results = $sth;
-
-		} catch (PDOException $e) {
-			die("Erreur : " . $e->getMessage());
-		}
-		return $results;
-	}
-
-	/**
-	 * Permet de réaliser une requete SELECT qui retourne plusieurs resultats
-     * @param string $val Value
-     * @param string $note Note
-	 */
-    public function requeteRechercheAvancee($query,$classeName) {
-		$results = null;
-		try {
-			$sth = $this->db->query($query,PDO :: FETCH_CLASS,$classeName);
-			$results = $sth->fetchAll(PDO::FETCH_CLASS,$classeName);
-
-		} catch (PDOException $e) {
-			die("Erreur : " . $e->getMessage());
-		}
-		return $results;
-	}
-
-	/**
-	 * Permet de réaliser une requete SELECT qui retourne un seul resultat
-     * @param string $val Value
-     * @param string $note Note
-	 */
-    public function requeteRechercheSimple($query,$classeName) {
-		$result = null;
-		try {
-			$sth = $this->db->query($query,PDO :: FETCH_CLASS,$classeName);
-			$result = $sth->fetch(PDO::FETCH_CLASS);
-		} catch (PDOException $e) {
-			die("Erreur : " . $e->getMessage());
-		}
-		return $result;
-
-	}
 
 	///////////////////////////////////////////RECHERCHE///////////////////////////////////////////////////
 	/**
 	 * Retourne un element à partir de son Id
-     * @param string $val Value
-     * @param string $note Note
 	 */
-	public function findById($classeName, $id) {
+	function findById($classeName, $id) {
 		return $this->requeteRechercheSimple("SELECT * FROM $classeName WHERE id = $id limit 1",$classeName);
 	}
 
 	/**
 	 * Retourne le nombre d'éléments d'une table
-     * @param string $val Value
-     * @param string $note Note
 	 */
-	public function doCount($tableName,$where="") {
+	function doCount($tableName,$where="") {
 		$result = null;
 		try {
 			$sth = $this->db->query("SELECT count(*) FROM $tableName ".$where);
@@ -98,81 +45,98 @@ class Model
 
 	/**
 	 * Retourne toutes les categories existantes
-     * @param string $val Value
-     * @param string $note Note
 	 */
-	public function getCategories($classeName) {
+	function getCategories($classeName) {
 		return $this->requeteRechercheAvancee("SELECT DISTINCT category FROM image ORDER BY category",$classeName);
 	}
 
 	/**
 	 * Retourne les note à partir de l'id de son image
-     * @param string $val Value
-     * @param string $note Note
 	 */
-	public function getNoteByIdImg($classeName, $idImg) {
+	function getNoteByIdImg($classeName, $idImg) {
 		return $this->requeteRechercheSimple("SELECT * FROM note WHERE idImg = $idImg limit 1",$classeName);
 	}
 
 	/**
 	 * Retourne les id des images pour un idAlbum donné
-     * @param string $val Value
-     * @param string $note Note
 	 */
-	public function getIdImgAlbum($classeName,$idAlbum) {
+	function getIdImgAlbum($classeName,$idAlbum) {
 		return $this->requeteRechercheAvancee("SELECT idImg FROM imgAlbum WHERE idAlbum='$idAlbum'",$classeName);
 	}
 
 	/**
-	 * Retourne les id des albums pour un idImg donné
-     * @param string $val Value
-     * @param string $note Note
-	 */
-	public function getIdAlbumImg($classeName,$idImg) {
-		return $this->requeteRechercheAvancee("SELECT idAlbum FROM imgAlbum WHERE idImg='$idImg'",$classeName);
-	}
+     * Get a album image id
+     * @param string $idImg Image ID
+     */
+	function getIdAlbumImg($idImg) {
+        $idImg = $idImg;
 
-	///////////////////////////////////////////INSERTION///////////////////////////////////////////////////
+        $sql = "SELECT idAlbum FROM imgAlbum WHERE idImg=:idImg";
+        $query = $this->db->prepare($sql);
+        $query->execute(array(':idImg' => $idImg));
 
-	/**
-	 * Permet l'insertion d'une image et de sa note, et retourne l'id de l'image
-     * @param string $val Value
-     * @param string $note Note
-	 */
-	public function insertImg($img) {
-		$this->requeteSimple( "INSERT into image (path,category,comment) VALUES ('$img->path','$img->category','$img->comment')", "image");
-		$id = $this->doCount("image");
-		$this->requeteSimple("INSERT into note (positive,negative,idImg) VALUES (0,0,$id)");
-		return $id;
 	}
 
 	/**
-	 * Permet l'insertion d'une image et de sa note, et retourne l'id de l'image
-     * @param string $val Value
-     * @param string $note Note
-	 */
-	public function insertAlbum($album) {
-		$this->requeteSimple( "INSERT into album (name) VALUES ('$album->name')", "album");
+     * Add a image to database
+     * @param string $path Path
+     * @param string $category Category
+     * @param string $comment Comment
+     */
+	function insertImg($img) {
+        $path = strip_tags($path);
+        $category = strip_tags($category);
+        $comment = strip_tags($comment);
+
+        $sql = "INSERT INTO image (path, category, comment) VALUES (:path, :category, :comment)";
+        $query = $this->db->prepare($sql);
+        $query->execute(array(':path' => $path, ':category' => $category, ':comment' => $comment));
+
+	}
+
+    /**
+     * Add a album to database
+     * @param string $name Name
+     */
+	function insertAlbum($album) {
+        $name = strip_tags($name);
+
+        $sql = "INSERT INTO album (name) VALUES (:name)";
+        $query = $this->db->prepare($sql);
+        $query->execute(array(':name' => $name));
 	}
 	///////////////////////////////////////////UPDATE///////////////////////////////////////////////////
 
-	/**
-	 * Met à jour les informations d'une image
-     * @param string $val Value
-     * @param string $note Note
-	 */
-	public function updateImg($img) {
-		$this->requeteSimple( "UPDATE image set path='$img->path',category='$img->category',comment='$img->comment' WHERE id='$img->id'");
+    /**
+     * Update a image to database
+     * @param string $path Path
+     * @param string $category Category
+     * @param string $comment Comment
+     */
+	function updateImg($img) {
+        $id = strip_tags($id);
+        $path = strip_tags($path);
+        $category = strip_tags($category);
+        $comment = strip_tags($comment);
+
+        $sql = "UPDATE image SET path='$path'', category='$category'', comment='$comment' WHERE id='$id'";
+        $query = $this->db->prepare($sql);
+        $query->execute(array(':path' => $path, ':category' => $category, ':comment' => $comment, ':id' => $id));
 	}
 
-	/**
-	 * Met à jour les notes d'une image
-     * @param string $val Value
-     * @param string $note Note
-	 */
-	public function updateNote($val, $note) {
+    /**
+     * Update a comment to database
+     * @param string $path Path
+     * @param string $category Category
+     * @param string $comment Comment
+     */
+	function updateNote($val, $note) {
 		if($val=='POS'){
 			$positive = $note->positive +1 ;
+
+
+
+
 			$this->requeteSimple("UPDATE note set positive='$positive',negative='$note->negative',idImg='$note->idImg' WHERE id='$note->id'");
 		}else{
 			$negative = $note->negative +1 ;
@@ -181,44 +145,7 @@ class Model
 	}
 
 
-    /**
-     * Get all images from database
-     */
-    public function size()
-    {
-        $sql = "SELECT * FROM image";
-        $query = $this->db->prepare($sql);
-        $query->execute();
 
-        return $query->fetchAll();
-    }
-
-    public function getImage()
-    {
-        $sql = 'SELECT * FROM image WHERE id='.$imgId;
-        $query = $this->db->prepare($sql);
-        $query->execute();
-
-        return $query->fetchAll();
-    }
-
-
-    /**
-     * Add a song to database
-     * @param string $artist Artist
-     * @param string $track Track
-     * @param string $link Link
-     */
-    public function addSong($artist, $track, $link)
-    {
-        // clean the input from javascript code for example
-        $artist = strip_tags($artist);
-        $track = strip_tags($track);
-        $link = strip_tags($link);
-
-        $sql = "INSERT INTO song (artist, track, link) VALUES (:artist, :track, :link)";
-        $query = $this->db->prepare($sql);
-        $query->execute(array(':artist' => $artist, ':track' => $track, ':link' => $link));
-    }
+########################################
 
 }

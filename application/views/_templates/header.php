@@ -7,7 +7,8 @@
     <meta name="description" content="php MVC image gallery">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- css -->
-    <link href="<?php echo URL; ?>public/css/style.css" rel="stylesheet">
+    <link href="<?php echo URL; ?>public/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css">
+    <link href="<?php echo URL; ?>public/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -34,4 +35,8 @@
             </ul>
         </div>
     </div>
+    <noscript>
+    <div class="alert alert-danger">You must enable Javascript on your browser for the site to work optimally and display sections completely.
+    </div>
+</noscript>
 </nav>

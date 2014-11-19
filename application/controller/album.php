@@ -71,3 +71,113 @@ class Album extends Controller
     }
 
 }
+
+
+
+##############
+	class gallery {
+		protected $data;
+		protected $imageDAO;
+		/**
+		 * Initialisation du site
+		 */
+		function __construct() {
+			// Ouvre le site
+			$this->imageDAO = new ImageDAO();
+
+		}
+
+		/**
+		 * Recupere les parametres de manière globale
+		 * Pour toutes les actions de ce contrôleur
+		 */
+		protected function getParam() {
+			// Recupère un éventuel no de départ
+		global $imgId,$size,$nbImg,$albumId,$data;
+			if (isset($_GET["imgId"]) && $_GET["imgId"]!="" && $_GET["imgId"]>0) {
+				$imgId = $_GET["imgId"];
+			} else {
+				$imgId = 1;
+			}
+
+			if (isset($_GET["albumId"]) && $_GET["albumId"]!="" && $_GET["albumId"]>0) {
+				$albumId = $_GET["albumId"];
+			} else {
+				$albumId = 1;
+			}
+			$data = new data();
+
+		}
+
+		//////////////////////////// LISTE DES ACTIONS DE CE CONTROLEUR/////////////////////////
+
+		/**
+		 * Action page index(par défaut)
+		 */
+		function index(){
+			global $imgId,$size,$data,$nbImg;
+			$this->getParam();
+			$data->albums = $this->imageDAO->getAlbums();
+			$data->cssfiles = array("gallery.css");
+			$data->content = "viewGallery.php";
+			$data->images = $this->getImageDAO()->getImages();
+
+
+
+			// Selectionne et charge la vue
+			require_once("view/mainView.php");
+		}
+
+	function afficher(){
+		global $imgId,$size,$data,$nbImg,$albumId;
+		$this->getParam();
+		$data->album = $this->getImageDAO()->getAlbum($albumId);
+		$data->cssfiles = array("gallery.css");
+		$data->content = "viewGalleryImages.php";
+		$data->otherImages = $this->getImageDAO()->getOtherAlbumImg($albumId);
+		require_once("view/mainView.php");
+
+	}
+	function removeAlbum(){
+		global $data,$albumId;
+		$this->getParam();
+		$this->getImageDAO()->removeAlbum($albumId);
+		$this->index();
+	}
+	function removeImage(){
+		global $imgId,$data,$albumId;
+		$this->getParam();
+		$this->getImageDAO()->removeImageAlbum($imgId,$albumId);
+		$this->afficher();
+	}
+	function emptyAlbum(){
+		global $data,$albumId;
+		$this->getParam();
+		$this->getImageDAO()->emptyAlbum($albumId);
+		$this->afficher();
+	}
+	function addImage(){
+		global $data,$albumId;
+		$imgId = $_POST['imageAdd'];
+
+		$this->getParam();
+		$this->getImageDAO()->addImageAlbum($imgId,$albumId);
+		$this->afficher();
+	}
+	function addAlbum(){
+		global $data,$albumId;
+		$imgEnavant = $_POST['id_imageEnAvant'];
+		$name = $_POST['name'];
+		$description = $_POST['description'];
+
+		$this->getParam();
+		$this->getImageDAO()->addAlbum($imgEnavant,$name,$description);
+		$this->index();
+	}	/**
+	* return ImageDAO
+	*/
+	function getImageDAO(){
+			return $this->imageDAO;
+	}
+
+	}
