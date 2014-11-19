@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Class Home
+ * Class Gallery
  *
  * Please note:
  * Don't use the same name for class and method, as this might trigger an (unintended) __construct of the class.
@@ -16,6 +16,9 @@ class Gallery extends Controller
      */
     public function index()
     {
+
+        $gallery_model = $this->loadModel('Model');
+        $amount_of_images = $gallery_model->getAmountOfImages();
 
 		# Retourne une image au hazard
 		function getRandomImage() {
@@ -98,8 +101,6 @@ class Gallery extends Controller
         // where to go after song has been added
         header('location: ' . URL . 'gallery/index');
     }
-
-
 
 }
 

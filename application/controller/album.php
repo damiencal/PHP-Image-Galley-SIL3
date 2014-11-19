@@ -73,25 +73,12 @@ class Album extends Controller
 }
 
 
-
-##############
-	class gallery {
-		protected $data;
-		protected $imageDAO;
-		/**
-		 * Initialisation du site
-		 */
-		function __construct() {
-			// Ouvre le site
-			$this->imageDAO = new ImageDAO();
-
-		}
-
 		/**
 		 * Recupere les parametres de manière globale
 		 * Pour toutes les actions de ce contrôleur
 		 */
-		protected function getParam() {
+/*
+ function getParam() {
 			// Recupère un éventuel no de départ
 		global $imgId,$size,$nbImg,$albumId,$data;
 			if (isset($_GET["imgId"]) && $_GET["imgId"]!="" && $_GET["imgId"]>0) {
@@ -111,10 +98,9 @@ class Album extends Controller
 
 		//////////////////////////// LISTE DES ACTIONS DE CE CONTROLEUR/////////////////////////
 
-		/**
+
 		 * Action page index(par défaut)
-		 */
-		function index(){
+
 			global $imgId,$size,$data,$nbImg;
 			$this->getParam();
 			$data->albums = $this->imageDAO->getAlbums();
@@ -126,7 +112,7 @@ class Album extends Controller
 
 			// Selectionne et charge la vue
 			require_once("view/mainView.php");
-		}
+
 
 	function afficher(){
 		global $imgId,$size,$data,$nbImg,$albumId;
@@ -175,9 +161,8 @@ class Album extends Controller
 		$this->index();
 	}	/**
 	* return ImageDAO
-	*/
+
 	function getImageDAO(){
 			return $this->imageDAO;
 	}
-
-	}
+*/

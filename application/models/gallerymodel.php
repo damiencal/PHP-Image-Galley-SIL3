@@ -15,12 +15,14 @@ class GalleryModel
     }
 
  /////////////////////////////////////////////// GETTERS //////////////////////////////////////////////////////////
-		/**
-		 * Return image from an ID
-		 */
+
+
+    /**
+    * Return image from an ID
+    */
 
     public function getImage($id){
-        $id = strip_tags($id;)
+        $id = strip_tags($id);
 
         $sql = "SELECT * FROM image WHERE id = :id LIMIT 1";
         $query = $this->db->prepare($sql);
@@ -34,6 +36,7 @@ class GalleryModel
  		/**
 		 * Return random image
 		 */
+
     public function getRandomImage() {
         $id=rand(1,$this->count()-1);
 
@@ -121,24 +124,10 @@ class GalleryModel
 
 ###############
 
-/*
-		/**
-		 * Retourne l'image suivante d'une image
-		 */
-		function getNextImage(image $img) {
-			$id = $img->getId();
-			if ($id < $this->count()) {
-				$img = $this->getImage($id+1);
-			}else{
-				$img = $this->getImage(1);
-
-			}
-			return $img;
-		}
 
 		/**
 		 * Retourne l'image précédente d'une image
-		 */
+
 		function getPrevImage(image $img) {
 			$id = $img->getId();
 			if ($id > 1) {
@@ -153,7 +142,7 @@ class GalleryModel
 		/**
 		 * saute en avant ou en arrière de $nb images
 		 * Retourne la nouvelle image
-		 */
+
 		function jumpToImage(image $img,$nb) {
 			    $id = $img->getId() + $nb;
 			    if($id<=0){
@@ -166,7 +155,7 @@ class GalleryModel
 
 		/**
 		 * Retourne la liste des images consécutives à partir d'une image
-		 */
+
 		function getImageList(image $img,$nb) {
 			# Verifie que le nombre d'image est non nul
 			if (!$nb > 0) {
@@ -187,7 +176,7 @@ class GalleryModel
 
 		/**
 		 * Recupere toutes les categories d'image en base
-		 */
+
 		function getCategories() {
 			$categories = array();
 			$tab = $this->db->getCategories("image");
@@ -199,7 +188,7 @@ class GalleryModel
 
 		/**
 		 * Recupere le nombre d'image pour une categorie donné
-		 */
+
 		function getNbImageCategory($category) {
 			return $this->db->doCount("image","WHERE category = '$category'");
 		}

@@ -19,7 +19,9 @@
                     </li>
                     <li><a target="_blank" href='http://opensource.org/licenses/MIT'> MIT Licence</a>
                     </li>
-                    <li><button type="button" class="btn btn-default btn-sm navbar-btn" href="#upload_modal" data-toggle="modal">Add Images</button>>
+                    <li><button type="button" class="btn btn-default btn-sm navbar-btn" href="#upload_modal" data-toggle="modal">Add Images</button>
+                    </li>
+                    <li><button type="button" class="btn btn-default btn-sm navbar-btn" href="">Images : <?php echo $amount_of_images; ?></button>
                     </li>
                 </ul>
             </div>

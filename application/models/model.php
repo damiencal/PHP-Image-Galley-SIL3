@@ -15,14 +15,19 @@ class Model
     }
 
 
-     public function getAmountOfSongs()
-{
-$sql = "SELECT COUNT(id) AS amount_of_songs FROM song";
-$query = $this->db->prepare($sql);
-$query->execute();
-// fetch() is the PDO method that get exactly one result
-return $query->fetch()->amount_of_songs;
-}
+		/**
+		 * Return image from an ID
+		 */
+
+    public function getAmountOfImages() {
+
+        $sql = "SELECT COUNT(id) AS amount_of_images FROM image";
+        $query = $this->db->prepare($sql);
+        $query->execute();
+
+        // fetchAll() is the PDO method that gets all result rows
+        return $query->fetch()->amount_of_images;
+    }
 
 ########################################
 
@@ -95,23 +100,6 @@ return $query->fetch()->amount_of_songs;
         $query = $this->db->prepare($sql);
         $query->execute(array(':name' => $name));
 	}
-	///////////////////////////////////////////UPDATE///////////////////////////////////////////////////
 
-    /**
-     * Update a image to database
-     * @param string $path Path
-     * @param string $category Category
-     * @param string $comment Comment
-     */
-
-
-    /**
-     * Update a comment to database
-     * @param string $path Path
-     * @param string $category Category
-     * @param string $comment Comment
-
-
-########################################
 
 }
