@@ -12,11 +12,11 @@ class Home extends Controller
 {
     /**
      * PAGE: index
-     * This method handles what happens when you move to http://yourproject/home/index (which is the default page btw)
+     * This method handles what happens when you move to http://yourproject/home/index (which is the default page)
      */
     public function index()
     {
-        // load views. within the views we can echo out $songs and $amount_of_songs easily
+        // load views.
         require 'application/views/_templates/header.php';
         require 'application/views/home/index.php';
         require 'application/views/_templates/footer.php';
@@ -24,79 +24,14 @@ class Home extends Controller
 
     /**
      * PAGE: about
-     * This method handles what happens when you move to http://yourproject/home/exampleone
+     * This method handles what happens when you move to http://yourproject/home/about
      */
     public function about()
     {
-        // load views. within the views we can echo out $songs and $amount_of_songs easily
+        // load views.
         require 'application/views/_templates/header.php';
         require 'application/views/home/about.php';
         require 'application/views/_templates/footer.php';
     }
 
-    /**
-     * PAGE: gallery
-     * This method handles what happens when you move to http://yourproject/home/exampletwo
-     */
-    public function gallery()
-    {
-
-		# Retourne une image au hazard
-		function getRandomImage() {
-			return $this->getImage(rand(1,$this->size()));
-		}
-
-		# Retourne l'objet de la premiere image
-		function getFirstImage() {
-			return $this->getImage(1);
-		}
-
-		# Retourne l'image suivante d'une image
-		function getNextImage(image $img) {
-			$id = $img->getId();
-			if ($id < $this->size()) {
-				$img = $this->getImage($id+1);
-			}
-			return $img;
-		}
-
-		# Retourne l'image précédente d'une image
-		function getPrevImage(image $img) {
-			$id = $img->getId();
-			if ($id > 1) {
-				$img = $this->getImage($id-1);
-			}
-			return $img;
-		}
-
-		# saute en avant ou en arrière de $nb images
-		# Retourne la nouvelle image
-		function jumpToImage(image $img, $nb) {
-			$id = $img->getId();
-			if (($id+$nb) > 0 && ($id+$nb) < $this->size()) {
-				$img = $this->getImage($id+$nb);
-			}
-			return $img;
-		}
-
-		# Retourne la liste des images consécutives à partir d'une image
-		function getImageList(image $img, $nb) {
-			# Verifie que le nombre d'image est non nul
-			if (!$nb > 0) {
-				debug_print_backtrace();
-				trigger_error("Erreur dans ImageDAO.getImageList: nombre d'images nul");
-			}
-			$id = $img->getId();
-			$max = $id+$nb;
-			while ($id < $this->size() && $id < $max) {
-				$res[] = $this->getImage($id);
-				$id++;
-			}
-			return $res;
-		}
-        // load views. within the views we can echo out $songs and $amount_of_songs easily
-        require 'application/views/_templates/header.php';
-        require 'application/views/home/gallery.php';
-        require 'application/views/_templates/footer.php';
-    }
 }
