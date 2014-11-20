@@ -1,6 +1,7 @@
 CREATE TABLE `phpmvcgallery`.`image` (
 id int primary key AUTO_INCREMENT,
 path varchar(1024),
+name varchar(64),
 category varchar(64),
 comment varchar(1024)
 );

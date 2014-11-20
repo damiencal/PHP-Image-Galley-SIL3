@@ -1,3 +1,21 @@
+<div>
+    <?php foreach ($album as $album) { ?>
+    <tr>
+        <td>
+            <?php if (isset($album->id)) echo $album->id; ?></td>
+        <td>
+            <?php if (isset($album->name)) echo $album->name; ?></td>
+        <td>
+            <?php if (isset($album->description)) echo $album->description; ?></td>
+        <td><a href="<?php echo URL . 'album/deletealbum/' . $album->id; ?>">x</a>
+        </td>
+    </tr>
+    <?php } ?>
+</div>
+
+
+
+<!--
 <container ng-app="myApp">
   <div class="container">
     <div class="row">
@@ -17,22 +35,22 @@
                 <option value="">All</option>
               </select>
               <label for="select">Select a Rating:</label>
-            </div><!-- End of Column -->
+            </div>
             <div class="col-md-3">
               <div class="wrapper">
                 <ul class="list">
                   <li ng-repeat="image in images | filter:categories" ng-click="setCurrentImage(image)">
                     <img ng-src="{{image.image}}" alt="{{image.description}}"/>
                   </li>
-                </ul><!-- End of List -->
-              </div><!-- End of Wrapper -->
-            </div><!-- End of Column -->
-          </div><!-- End of Row -->
-        </div><!-- End of Album Controller -->
-      </div><!-- End of Column -->
-    </div><!-- End of Row -->
-  </div><!-- End of Container -->
-</container><!-- End of Body -->
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</container>
 
 <script>
 angular.module('myApp', [])
@@ -414,3 +432,4 @@ function buildNewStash(width, scale) {
 }
 
 </script>
+-->

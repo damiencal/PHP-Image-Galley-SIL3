@@ -16,11 +16,68 @@ class Gallery extends Controller
      */
     public function index()
     {
-
+        // load a model, perform an action, pass the returned data to a variable
         $gallery_model = $this->loadModel('Model');
         $amount_of_images = $gallery_model->getAmountOfImages();
 
-		# Retourne une image au hazard
+        // load a model, perform an action, pass the returned data to a variable
+        $id = 2;
+        $gallery_model = $this->loadModel('GalleryModel');
+        $image = $gallery_model->getImage($id);
+
+        // load a model, perform an action, pass the returned data to a variable
+        $images = $gallery_model->getAllImages();
+
+        // load views. within the views we can echo out $songs and $amount_of_songs easily
+        require 'application/views/_templates/header.php';
+        require 'application/views/gallery/index.php';
+        require 'application/views/_templates/footer.php';
+    }
+
+    /**
+     * ACTION: getImage
+     * This method handles what happens when you move to http://yourproject/gallery/index
+     * IMPORTANT: This is not a normal page, it's an ACTION. This is where the "add a album" form on album/index
+     * directs the user after the form submit. This method handles all the POST data from the form and then redirects
+     * the user back to album/index via the last line: header(...)
+     */
+    public function getImage()
+    {
+        // if we have POST data to create a new Album
+        if (isset($_POST["submit_add_image"])) {
+            // load model, perform an action on the model
+            $image_model = $this->loadModel('GalleryModel');
+            $image_model->addImage($_POST["name"], $_POST["path"], $_POST["category"], $_POST["comment"]);
+        }
+
+        // redirect after image has been added
+        header('location: ' . URL . 'gallery/index');
+    }
+
+
+    /**
+     * ACTION: addImage
+     * This method handles what happens when you move to http://yourproject/gallery/add
+     * IMPORTANT: This is not a normal page, it's an ACTION. This is where the "add a album" form on album/index
+     * directs the user after the form submit. This method handles all the POST data from the form and then redirects
+     * the user back to album/index via the last line: header(...)
+     */
+    public function addImage()
+    {
+        // if we have POST data to create a new Album
+        if (isset($_POST["submit_add_image"])) {
+            // load model, perform an action on the model
+            $image_model = $this->loadModel('GalleryModel');
+            $image_model->addImage($_POST["name"], $_POST["path"], $_POST["category"], $_POST["comment"]);
+        }
+
+        // redirect after image has been added
+        header('location: ' . URL . 'gallery/index');
+    }
+
+}
+
+# Retourne une image au hazard
 		function getRandomImage() {
 			return $this->getImage(rand(1,$this->size()));
 		}
@@ -73,39 +130,6 @@ class Gallery extends Controller
 			}
 			return $res;
 		}
-        // load views. within the views we can echo out $songs and $amount_of_songs easily
-        require 'application/views/_templates/header.php';
-        require 'application/views/gallery/index.php';
-        require 'application/views/_templates/footer.php';
-    }
-
-    /**
-     * ACTION: addImage
-     * This method handles what happens when you move to http://yourproject/gallery/addImage
-     * IMPORTANT: This is not a normal page, it's an ACTION. This is where the "add a album" form on album/index
-     * directs the user after the form submit. This method handles all the POST data from the form and then redirects
-     * the user back to album/index via the last line: header(...)
-     */
-    public function addImage()
-    {
-        $path = "uploads/";
-        $valid_formats = array("jpg","jpeg", "png", "gif", "bmp");
-
-        // if we have POST data to create a new Album
-        if (isset($_POST["submit_add_image"])) {
-            // load model, perform an action on the model
-            $image_model = $this->loadModel('GalleryModel');
-            $image_model->addImage($_POST["image_id"], $_POST["name"]);
-        }
-
-        // where to go after song has been added
-        header('location: ' . URL . 'gallery/index');
-    }
-
-}
-
-
-
 if(isset($_FILES['image'])) {
             echo "1";
             $name = $_FILES['image']['name'];

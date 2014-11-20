@@ -18,11 +18,8 @@ class Album extends Controller
     {
         // load a model, perform an action, pass the returned data to a variable
         $album_model = $this->loadModel('AlbumModel');
-        $album = $album_model->getAllAlbums();
+        $albums = $album_model->getAllAlbums();
 
-        // load another model, perform an action, pass the returned data to a variable
-        $stats_model = $this->loadModel('AlbumModel');
-        $amount_of_pics = $stats_model->getAmountOfPictures();
         // load views.
         require 'application/views/_templates/header.php';
         require 'application/views/album/index.php';
@@ -41,7 +38,7 @@ class Album extends Controller
         if (isset($_POST["submit_add_album"])) {
             // load model, perform an action on the model
             $album_model = $this->loadModel('AlbumModel');
-            $album_model->addAlbum($_POST["album_id"], $_POST["name"]);
+            $album_model->addAlbum($_POST["id"], $_POST["name"]);
         }
 
         // where to go after song has been added
@@ -56,14 +53,14 @@ class Album extends Controller
      * redirects the user back to album/index via the last line: header(...)
      * @param int $album_id
      */
-    public function deleteAlbum($album_id)
+    public function deleteAlbum($id)
     {
 
         // if we have an id of a song that should be deleted
-        if (isset($album_id)) {
+        if (isset($id)) {
             // load model, perform an action on the model
             $album_model = $this->loadModel('AlbumModel');
-            $album_model->deleteAlbum($album_id);
+            $album_model->deleteAlbum($id);
         }
 
         // where to go after song has been deleted

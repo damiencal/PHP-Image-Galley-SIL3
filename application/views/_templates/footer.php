@@ -1,4 +1,5 @@
-<div class="modal fade" id="upload_modal">
+<div class="modal fade" id="upload_modal" >
+    <form action="<?php echo URL; ?>gallery/addimage" method="POST">
     <div class="modal-header">
         <h2>Upload Images</h2>
     </div>
@@ -6,8 +7,10 @@
         <input class="file" id="inputImage" type="file" multiple="true">
     </div>
     <div class="modal-footer">
-        <a href="#" class="btn" data-dismiss="modal">Close</a>
+        <input type="submit" name="submit_add_image" value="Submit" />
+<!--        <a href="gallery/add" class="btn" data-dismiss="modal">Close</a>-->
     </div>
+    </form>
 </div>
 <footer>
     <nav class="navbar navbar-default navbar-fixed-bottom">
@@ -21,7 +24,7 @@
                     </li>
                     <li><button type="button" class="btn btn-default btn-sm navbar-btn" href="#upload_modal" data-toggle="modal">Add Images</button>
                     </li>
-                    <li><button type="button" class="btn btn-default btn-sm navbar-btn" href="">Images : <?php echo $amount_of_images; ?></button>
+                    <li><button type="button" class="btn btn-default btn-sm navbar-btn" href="home/about">Images : <?php echo $amount_of_images; ?></button>
                     </li>
                 </ul>
             </div>

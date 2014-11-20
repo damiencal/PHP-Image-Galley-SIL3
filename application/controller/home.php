@@ -16,8 +16,9 @@ class Home extends Controller
      */
     public function index()
     {
-        $gallery_model = $this->loadModel('Model');
-        $amount_of_images = $gallery_model->getAmountOfImages();
+        $model = $this->loadModel('Model');
+        $amount_of_images = $model->getAmountOfImages();
+
         // load views.
         require 'application/views/_templates/header.php';
         require 'application/views/home/index.php';
@@ -30,8 +31,9 @@ class Home extends Controller
      */
     public function about()
     {
-        $gallery_model = $this->loadModel('Model');
-        $amount_of_images = $gallery_model->getAmountOfImages();
+        $model = $this->loadModel('Model');
+        $amount_of_images = $model->getAmountOfImages();
+
         // load views.
         require 'application/views/_templates/header.php';
         require 'application/views/home/about.php';

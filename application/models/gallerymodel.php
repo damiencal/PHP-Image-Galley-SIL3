@@ -14,8 +14,17 @@ class GalleryModel
         }
     }
 
- /////////////////////////////////////////////// GETTERS //////////////////////////////////////////////////////////
 
+    /**
+    * Return all images
+    */
+    public function getAllImages(){
+        $sql = "SELECT * FROM image";
+        $query = $this->db->prepare($sql);
+        $query->execute();
+
+        return $query->fetchAll();
+    }
 
     /**
     * Return image from an ID
@@ -49,6 +58,7 @@ class GalleryModel
     public function getFirstImage() {
         return $this->getImage(1);
 		}
+
     /**
     * Return last image
     */
@@ -61,21 +71,19 @@ class GalleryModel
         return $query->fetchAll();
 		}
 
- /////////////////////////////////////////////// SETTERS //////////////////////////////////////////////////////////
 	/**
      * Add a image to database
      * @param string $path Path
      * @param string $category Category
      * @param string $comment Comment
      */
-    public function addImage($id, $name, $path, $category, $comment) {
-        $id = strip_tags($id);
+    public function addImage($name, $path, $category, $comment) {
         $name = strip_tags($name);
         $path = strip_tags($path);
         $category = strip_tags($category);
         $comment = strip_tags($comment);
 
-        $sql = "INSERT INTO image (path, category, comment) VALUES (:path, :category, :comment)";
+        $sql = "INSERT INTO image (name, path, category, comment) VALUES (:name, :path, :category, :comment)";
         $query = $this->db->prepare($sql);
         $query->execute(array(':name' => $name, ':path' => $path, ':category' => $category, ':comment' => $comment));
 
@@ -192,3 +200,4 @@ class GalleryModel
 		function getNbImageCategory($category) {
 			return $this->db->doCount("image","WHERE category = '$category'");
 		}
+ */

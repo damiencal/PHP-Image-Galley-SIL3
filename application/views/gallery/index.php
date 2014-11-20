@@ -1,24 +1,21 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Image name:
-                    <small>Item Subheading</small>
-                </h1>
+            <h1 class="page-header"> Image name: <small><?php if (isset($image[0]->name)) echo $image[0]->name; ?></small></h1>
         </div>
     </div>
-
     <div class="row">
         <div class="col-md-8">
-            <img class="img-responsive" src="http://placehold.it/500x400" alt="">
+            <img class="img-responsive" src="<?php if (isset($image[0]->path)) echo $image[0]->path; ?>" alt="">
         </div>
         <div class="col-md-4">
-            <form class="form-horizontal">
+            <form class="form-horizontal" action="<?php echo URL; ?>gallery/addimage" method="POST">
                 <fieldset>
                     <legend>Image Description</legend>
                     <div class="form-group">
                         <label for="textArea">Comment</label>
                         <div class="col-lg-10">
-                            <textarea class="form-control" rows="3" id="textArea"></textarea>
+                            <textarea class="form-control" name="comment" value="" rows="3" id="textArea"></textarea>
                             <span class="help-block">Leave a comment for the image.</span>
                         </div>
                     </div>
@@ -38,17 +35,18 @@
                     <div class="form-group">
                         <div class="col-lg-10 col-lg-offset-2">
                             <button class="btn btn-default">Cancel</button>
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="submit" class="btn btn-primary" name="submit_add_image" value="Submit">Submit</button>
                         </div>
                     </div>
                 </fieldset>
             </form>
         </div>
     </div>
-
+</div>
+<div class="container">
     <div class="row">
         <div class="col-lg-12">
-            <h3 class="page-header">Related Projects</h3>
+            <h3 class="page-header">Related images</h3>
         </div>
         <div class="col-sm-3 col-xs-6">
             <a href="#">
@@ -75,70 +73,14 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Thumbnail Gallery</h1>
+            <h1 class="page-header">Image Gallery</h1>
         </div>
-
-        <div class="col-lg-3 col-md-4 col-xs-6 thumb">
-            <a class="thumbnail" href="#">
-                <img class="img-responsive" src="http://placehold.it/400x300" alt="">
-            </a>
-        </div>
-        <div class="col-lg-3 col-md-4 col-xs-6 thumb">
-            <a class="thumbnail" href="#">
-                <img class="img-responsive" src="http://placehold.it/400x300" alt="">
-            </a>
-        </div>
-        <div class="col-lg-3 col-md-4 col-xs-6 thumb">
-            <a class="thumbnail" href="#">
-                <img class="img-responsive" src="http://placehold.it/400x300" alt="">
-            </a>
-        </div>
-        <div class="col-lg-3 col-md-4 col-xs-6 thumb">
-            <a class="thumbnail" href="#">
-                <img class="img-responsive" src="http://placehold.it/400x300" alt="">
-            </a>
-        </div>
-        <div class="col-lg-3 col-md-4 col-xs-6 thumb">
-            <a class="thumbnail" href="#">
-                <img class="img-responsive" src="http://placehold.it/400x300" alt="">
-            </a>
-        </div>
-        <div class="col-lg-3 col-md-4 col-xs-6 thumb">
-            <a class="thumbnail" href="#">
-                <img class="img-responsive" src="http://placehold.it/400x300" alt="">
-            </a>
-        </div>
-        <div class="col-lg-3 col-md-4 col-xs-6 thumb">
-            <a class="thumbnail" href="#">
-                <img class="img-responsive" src="http://placehold.it/400x300" alt="">
-            </a>
-        </div>
-        <div class="col-lg-3 col-md-4 col-xs-6 thumb">
-            <a class="thumbnail" href="#">
-                <img class="img-responsive" src="http://placehold.it/400x300" alt="">
-            </a>
-        </div>
-        <div class="col-lg-3 col-md-4 col-xs-6 thumb">
-            <a class="thumbnail" href="#">
-                <img class="img-responsive" src="http://placehold.it/400x300" alt="">
-            </a>
-        </div>
-        <div class="col-lg-3 col-md-4 col-xs-6 thumb">
-            <a class="thumbnail" href="#">
-                <img class="img-responsive" src="http://placehold.it/400x300" alt="">
-            </a>
-        </div>
-        <div class="col-lg-3 col-md-4 col-xs-6 thumb">
-            <a class="thumbnail" href="#">
-                <img class="img-responsive" src="http://placehold.it/400x300" alt="">
-            </a>
-        </div>
-        <div class="col-lg-3 col-md-4 col-xs-6 thumb">
-            <a class="thumbnail" href="#">
-                <img class="img-responsive" src="http://placehold.it/400x300" alt="">
-            </a>
-        </div>
-    </div>
-
-    <hr>
+            <?php foreach ($images as $images) { ?>
+                <div class="col-lg-3 col-md-4 col-xs-6 thumb">
+                    <a class="thumbnail" href="gallery/getimage/<?php if (isset($images->id)) echo $images->id; ?>">
+                    <img class="img-responsive" src="<?php echo URL; ?><?php if (isset($images->path)) echo $images->path; ?>" alt="<?php if (isset($images->name)) echo $images->name; ?>">
+                    </a>
+                </div>
+            <?php } ?>
+</div>
 </div>
