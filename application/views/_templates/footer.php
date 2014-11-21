@@ -32,9 +32,6 @@
     </nav>
     </footer>
         <!-- JavaScript -->
-        <script src="<?php echo URL; ?>public/js/jquery.min.js"></script>
-        <script src="<?php echo URL; ?>public/js/angularjs.min.js"></script>
-        <script src="<?php echo URL; ?>public/js/bootstrap.min.js"></script>
-        <script src="<?php echo URL; ?>public/js/application.js"></script>
+        <script src="<?php echo URL; ?>public/js/application.min.js"></script>
     </body>
 </html>
