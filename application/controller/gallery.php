@@ -130,6 +130,10 @@ class Gallery extends Controller
 			}
 			return $res;
 		}
+
+
+
+###############
 if(isset($_FILES['image'])) {
             echo "1";
             $name = $_FILES['image']['name'];

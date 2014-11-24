@@ -16,8 +16,8 @@ class GalleryModel
 
 
     /**
-    * Return all images
-    */
+     * Return all images
+     */
     public function getAllImages(){
         $sql = "SELECT * FROM image";
         $query = $this->db->prepare($sql);
@@ -27,8 +27,8 @@ class GalleryModel
     }
 
     /**
-    * Return image from an ID
-    */
+     * Return image from an ID
+     */
 
     public function getImage($id){
         $id = strip_tags($id);
@@ -40,28 +40,28 @@ class GalleryModel
         $query->execute($parameters);
 
         return $query->fetchAll();
-        }
+    }
 
- 		/**
-		 * Return random image
-		 */
+     /**
+      * Return random image
+      */
 
     public function getRandomImage() {
         $id=rand(1,$this->count()-1);
 
         return $this->getImage($id);
-		}
+    }
 
     /**
     * Return first image
     */
     public function getFirstImage() {
         return $this->getImage(1);
-		}
+    }
 
     /**
-    * Return last image
-    */
+     * Return last image
+     */
     public function getLastImage() {
 
         $sql = "SELECT id FROM image ORDER BY id DESC LIMIT 1";
@@ -69,10 +69,23 @@ class GalleryModel
         $query->execute();
 
         return $query->fetchAll();
-		}
+    }
+
+     /**
+      * Return Image Categories
+      */
+    public function getCategories() {
+
+        $sql = "SELECT DISTINCT category FROM image ORDER BY category";
+        $query = $this->db->prepare($sql);
+        $query->execute();
+
+        return $query->fetchAll();
+    }
 
 	/**
      * Add a image to database
+     * @param string $name Name
      * @param string $path Path
      * @param string $category Category
      * @param string $comment Comment
@@ -87,10 +100,12 @@ class GalleryModel
         $query = $this->db->prepare($sql);
         $query->execute(array(':name' => $name, ':path' => $path, ':category' => $category, ':comment' => $comment));
 
-	}
+        return $query->fetchAll();
+    }
 
     /**
      * Update an image from database
+     * @param string $name Name
      * @param string $path Path
      * @param string $category Category
      * @param string $comment Comment
@@ -118,86 +133,26 @@ class GalleryModel
     public function deleteImage($id){
         $id = strip_tags($id);
 
-        $sql = "DELETE FROM image WHERE id = :id";
+        $sql = "DELETE * FROM image WHERE id = :id";
         $query = $this->db->prepare($sql);
         $query->execute(array(':id' => $id));
 
+    }
 
-		}
+     /**
+      * Retourne l'image précédente d'une image
+      */
+    public function getPrevImage($id) {
+        $id = strip_tags($id);
+        $img = null;
+
+        if ($id > 1) {
+                $img = $this->getImage($id-1);
+        }
+        else {
+				$img = $this->getImage($this->count());
+        }
+			return $img;
+    }
 
 }
-
-
-
-
-###############
-
-
-		/**
-		 * Retourne l'image précédente d'une image
-
-		function getPrevImage(image $img) {
-			$id = $img->getId();
-			if ($id > 1) {
-				$img = $this->getImage($id-1);
-			}else{
-				$img = $this->getImage($this->count());
-
-			}
-			return $img;
-		}
-
-		/**
-		 * saute en avant ou en arrière de $nb images
-		 * Retourne la nouvelle image
-
-		function jumpToImage(image $img,$nb) {
-			    $id = $img->getId() + $nb;
-			    if($id<=0){
-			    }else if($id>=$this->count()){
-			    }else{
-			      $img = $this->getImage($id);
-			    }
-			    return $img;
-			  }
-
-		/**
-		 * Retourne la liste des images consécutives à partir d'une image
-
-		function getImageList(image $img,$nb) {
-			# Verifie que le nombre d'image est non nul
-			if (!$nb > 0) {
-				debug_print_backtrace();
-				trigger_error("Erreur dans ImageDAO.getImageList: nombre d'images nul");
-			}
-			$id = $img->getId();
-			$max = $id+$nb;
-			$res = array();
-			while ($id < $this->count() && $id < $max) {
-				$res[] = $this->getImage($id);
-				$id++;
-			}
-			return $res;
-		}
-
-
-
-		/**
-		 * Recupere toutes les categories d'image en base
-
-		function getCategories() {
-			$categories = array();
-			$tab = $this->db->getCategories("image");
-			foreach($tab as $cat=>$val){
-				$categories[] = $val->getCategory();
-			}
-			return $categories;
-		}
-
-		/**
-		 * Recupere le nombre d'image pour une categorie donné
-
-		function getNbImageCategory($category) {
-			return $this->db->doCount("image","WHERE category = '$category'");
-		}
- */

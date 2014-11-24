@@ -195,6 +195,37 @@ class AlbumModel
     }
 
 
+    /**
+     * Get a album image id
+     * @param string $idImg Image ID
+     */
+	function getIdAlbumImg($idImg) {
+        $idImg = $idImg;
+
+        $sql = "SELECT idAlbum FROM imgAlbum WHERE idImg=:idImg";
+        $query = $this->db->prepare($sql);
+        $parameters = array(':idImg' => $idImg);
+
+        $query->execute($parameters);
+	}
+
+
+
+    /**
+     * Add a album to database
+     * @param string $name Name
+     */
+	function insertAlbum($album) {
+        $name = strip_tags($name);
+
+        $sql = "INSERT INTO album (name) VALUES (:name)";
+        $query = $this->db->prepare($sql);
+        $parameters = array(':name' => $name);
+
+        $query->execute($parameters);
+	}
+
+
 }
 
 

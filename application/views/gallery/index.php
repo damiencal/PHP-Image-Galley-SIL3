@@ -9,7 +9,7 @@
             <img class="img-responsive" src="<?php if (isset($image[0]->path)) echo $image[0]->path; ?>" alt="">
         </div>
         <div class="col-md-4">
-            <form class="form-horizontal" action="<?php echo URL; ?>gallery/addimage" method="POST">
+            <form class="form-horizontal" action="<?php echo URL; ?>gallery/updateimage" method="POST">
                 <fieldset>
                     <legend>Image Description</legend>
                     <div class="form-group">
@@ -35,7 +35,7 @@
                     <div class="form-group">
                         <div class="col-lg-10 col-lg-offset-2">
                             <button class="btn btn-default">Cancel</button>
-                            <button type="submit" class="btn btn-primary" name="submit_add_image" value="Submit">Submit</button>
+                            <button type="submit" class="btn btn-primary" name="submit_update_image" value="Submit">Submit</button>
                         </div>
                     </div>
                 </fieldset>
