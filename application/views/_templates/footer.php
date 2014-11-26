@@ -12,7 +12,7 @@
     </div>
     </form>
 </div>
-<footer>
+<footer class="footer">
     <nav class="navbar navbar-default navbar-fixed-bottom">
         <div class="container">
                 <ul class="nav navbar-nav">

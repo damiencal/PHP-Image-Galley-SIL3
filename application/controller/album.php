@@ -69,48 +69,6 @@ class Album extends Controller
 
 }
 
-
-		/**
-		 * Recupere les parametres de manière globale
-		 * Pour toutes les actions de ce contrôleur
-		 */
-/*
- function getParam() {
-			// Recupère un éventuel no de départ
-		global $imgId,$size,$nbImg,$albumId,$data;
-			if (isset($_GET["imgId"]) && $_GET["imgId"]!="" && $_GET["imgId"]>0) {
-				$imgId = $_GET["imgId"];
-			} else {
-				$imgId = 1;
-			}
-
-			if (isset($_GET["albumId"]) && $_GET["albumId"]!="" && $_GET["albumId"]>0) {
-				$albumId = $_GET["albumId"];
-			} else {
-				$albumId = 1;
-			}
-			$data = new data();
-
-		}
-
-		//////////////////////////// LISTE DES ACTIONS DE CE CONTROLEUR/////////////////////////
-
-
-		 * Action page index(par défaut)
-
-			global $imgId,$size,$data,$nbImg;
-			$this->getParam();
-			$data->albums = $this->imageDAO->getAlbums();
-			$data->cssfiles = array("gallery.css");
-			$data->content = "viewGallery.php";
-			$data->images = $this->getImageDAO()->getImages();
-
-
-
-			// Selectionne et charge la vue
-			require_once("view/mainView.php");
-
-
 	function afficher(){
 		global $imgId,$size,$data,$nbImg,$albumId;
 		$this->getParam();
