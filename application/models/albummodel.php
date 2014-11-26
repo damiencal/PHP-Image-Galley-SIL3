@@ -48,14 +48,11 @@ class AlbumModel
     public function removeAlbum($id){
         $id = $id;
 
-        $sql = "DELETE FROM album WHERE id= :id";
+        $sql = "DELETE FROM album WHERE id = $id_album";
         $query = $this->db->prepare($sql);
         $query->execute();
 
         return $query->fetchAll();
-
-        	 $this->db->requeteSimple("DELETE FROM appartient_album WHERE album_id = $id_album");
-			 $this->db->requeteSimple("DELETE FROM album WHERE id = $id_album");
 
     }
 
@@ -66,14 +63,11 @@ class AlbumModel
     public function emptyAlbum($id_album){
                 $id = $id;
 
-        $sql = "SELECT * FROM album WHERE id = $id limit 1";
+        $sql = "DELETE FROM appartient_album WHERE album_id = $id_album";
         $query = $this->db->prepare($sql);
         $query->execute();
 
         return $query->fetchAll();
-
-        	$this->db->requeteSimple("UPDATE album set img_enavant_id=NULL WHERE id='$id_album'");
-			$this->db->requeteSimple("DELETE FROM appartient_album WHERE album_id = $id_album");
 
     }
 
@@ -102,14 +96,11 @@ class AlbumModel
     public function addImageAlbum($id_image,$id_album){
                 $id = $id;
 
-        $sql = "SELECT * FROM album WHERE id = $id limit 1";
+        $sql = "INSERT into appartient_album (album_id,image_id) VALUES ('".$id_album."','".$id_image."')";
         $query = $this->db->prepare($sql);
         $query->execute();
 
         return $query->fetchAll();
-
-
-             $this->db->requeteSimple("INSERT into appartient_album (album_id,image_id) VALUES ('".$id_album."','".$id_image."')");
 
     }
 
@@ -120,13 +111,12 @@ class AlbumModel
     public function removeImageAlbum($id_image,$id_album){
                 $id = $id;
 
-        $sql = "SELECT * FROM album WHERE id = $id limit 1";
+        $sql = "ELETE FROM appartient_album WHERE album_id = $id_album AND image_id =";
         $query = $this->db->prepare($sql);
         $query->execute();
 
         return $query->fetchAll();
 
-        			 $this->db->requeteSimple("DELETE FROM appartient_album WHERE album_id = $id_album AND image_id =$id_image");
 
     }
 
@@ -137,13 +127,11 @@ class AlbumModel
     public function getImageByAlbum($album){
                 $id = $id;
 
-        $sql = "SELECT * FROM album WHERE id = $id limit 1";
+        $sql = "SELECT * FROM image  where id in (select image_id from appartient_album where album_id=";
         $query = $this->db->prepare($sql);
         $query->execute();
 
         return $query->fetchAll();
-
-        			return $this->db->requeteRechercheAvancee("SELECT * FROM image  where id in (select image_id from appartient_album where album_id=".$album->id.")","Image");
 
     }
 
@@ -154,13 +142,11 @@ class AlbumModel
     public function getOtherAlbumImg($albumId){
                 $id = $id;
 
-        $sql = "SELECT * FROM album WHERE id= :id limit 1";
+        $sql = "SELECT * FROM image  WHERE id NOT IN (select image_id from appartient_album where album_id=".$albumId."";
         $query = $this->db->prepare($sql);
         $query->execute();
 
         return $query->fetchAll();
-
-        			return $this->db->requeteRechercheAvancee("SELECT * FROM image  WHERE id NOT IN (select image_id from appartient_album where album_id=".$albumId.")","Image");
 
     }
 
@@ -227,32 +213,3 @@ class AlbumModel
 
 
 }
-
-
-
-######################################
-		/**
-		 * Retourne un album La premiere image d'un Album
-		 * @param $Albumid Entier identfiant de l'album'
-		 */
-		function getFirstImgTrie($album_id){
-			return $this->db->requeteRechercheSimple("SELECT * FROM image WHERE id IN (SELECT image_id FROM appartient_album WHERE album_id=$album_id ) ORDER BY id  LIMIT 1 ","Image");
-		}
-		function getNextImgTrie($album_id,$img_id){
-			return $this->db->requeteRechercheSimple("SELECT * FROM image WHERE id IN (SELECT image_id FROM appartient_album WHERE album_id=$album_id AND image_id>$img_id ) ORDER BY id  LIMIT 1 ","Image");
-		}
-		function getPrevImgTrie($album_id,$img_id){
-			return $this->db->requeteRechercheSimple("SELECT * FROM image WHERE id IN (SELECT image_id FROM appartient_album WHERE album_id=$album_id AND image_id<$img_id ) ORDER BY id  LIMIT 1 ","Image");
-		}
-		function getLastAlbum() {
-		return  $this->db->requeteRechercheSimple("SELECT * FROM album ORDER BY id DESC LIMIT 1","Album");
-		}
-
-
-		function getImages(){
-			return $this->db->requeteRechercheAvancee("SELECT * FROM image","Image");
-		}
-
-
-
-

@@ -25,7 +25,7 @@ module.exports = function (grunt) {
                 src: 'Gruntfile.js'
             },
             lib_test: {
-                src: ['public/js/site.js', 'public/js/speech.js', 'public/js/profile.js']
+                src: ['public/js/*.js']
             }
         },
         concat: {
@@ -61,8 +61,8 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-csslint');
     grunt.loadNpmTasks('grunt-contrib-concat');
-
+    grunt.loadNpmTasks('grunt-contrib-uncss');
 
     // Default task.
-    grunt.registerTask('default', ['jshint', 'csslint', 'concat']);
+    grunt.registerTask('default', ['jshint', 'csslint', 'concat', 'uncss']);
 };
