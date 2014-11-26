@@ -15,9 +15,9 @@ class Model
     }
 
 
-		/**
-		 * Return image from an ID
-		 */
+    /**
+     * Return amount of images in DB
+     */
 
     public function getAmountOfImages() {
 
@@ -29,6 +29,9 @@ class Model
         return $query->fetch()->amount_of_images;
     }
 
+    /**
+     * Return image categories
+     */
     public function getCategories() {
 
         $sql = "SELECT DISTINCT category FROM image ORDER BY category";
@@ -38,16 +41,5 @@ class Model
         // fetchAll() is the PDO method that gets all result rows
         return $query->fetchAll();
     }
-
-
-
-//
-//	/**
-//	 * Retourne les id des images pour un idAlbum donné
-//	 */
-//	function getIdImgAlbum($classeName,$idAlbum) {
-//		return $this->requeteRechercheAvancee("SELECT idImg FROM imgAlbum WHERE idAlbum='$idAlbum'",$classeName);
-//	}
-
 
 }

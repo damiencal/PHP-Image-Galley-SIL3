@@ -283,7 +283,7 @@ m&&m.databound||(m=c);f?a.$watch(f,function(a,c){e.$set("value",a);c!==a&&m.remo
 
 
 
-
+//test
 
 var soClean = angular.module('soClean', []);
 soClean.controller('soCleanLandingPage', ['$scope',
@@ -299,30 +299,24 @@ var app = angular.module('pics', []);
 app.controller('PicsCtrl', function($scope, $timeout) {
   $scope.albums = [
       {name : 'Album 1', id : '1', pictures : [
-        { id : '1', thumbnailWidth: 150, thumbnailHeight: 100, thumbnail : 'http://localhost/150x150', image : 'http://localhost/350x150'},
-        { id : '2', thumbnailWidth: 150, thumbnailHeight: 100, thumbnail : 'http://localhost/150x150', image : 'http://localhost/350x150'},
-        { id : '3', thumbnailWidth: 150, thumbnailHeight: 100, thumbnail : 'http://localhost/150x150', image : 'http://localhost/350x150'}]},
-      {name : 'Album 2', id : '2', pictures : [
-        { id : '4', thumbnailWidth: 150, thumbnailHeight: 100, thumbnail : 'http://localhost/150x50', image : 'http://localhost/350x150'},
-        { id : '5', thumbnailWidth: 150, thumbnailHeight: 100, thumbnail : 'http://localhost/150x50', image : 'http://localhost/350x150'},
-        { id : '6', thumbnailWidth: 150, thumbnailHeight: 100, thumbnail : 'http://localhost/150x50', image : 'http://localhost/350x150'}]},
-      {name : 'Album 3', id : '3', pictures : [
-        { id : '7', thumbnailWidth: 150, thumbnailHeight: 100, thumbnail : 'http://localhost/150x250', image : 'http://localhost/350x150'},
-        { id : '8', thumbnailWidth: 150, thumbnailHeight: 100, thumbnail : 'http://localhost/150x250', image : 'http://localhost/350x150'},
-        { id : '9', thumbnailWidth: 150, thumbnailHeight: 100, thumbnail : 'http://localhost/150x250', image : 'http://localhost/350x150'}]},
+        { id : '1', name: 'NameTest1', path: 'public/img/1.jpg', category : 'test1', comment : 'test 1 comment'},
+        { id : '2', name: 'NameTest2', path: 'public/img/2.jpg', category : 'test2', comment : 'test 2 comment'},
+        { id : '3', name: 'NameTest3', path: 'public/img/3.jpg', category : 'test3', comment : 'test 3 comment'},
+        { id : '4', name: 'NameTest4', path: 'public/img/4.jpg', category : 'test4', comment : 'test 4 comment'},
+        { id : '5', name: 'NameTest5', path: 'public/img/5.jpg', category : 'test5', comment : 'test 5 comment'},
+        { id : '6', name: 'NameTest6', path: 'public/img/6.jpg', category : 'test6', comment : 'test 6 comment'},
+        { id : '7', name: 'NameTest7', path: 'public/img/7.jpg', category : 'test7', comment : 'test 7 comment'},
+        ]},
     ];
-  $scope.stashWidth = getBodyWidth();
   $scope.scale = 100;
   $scope.selectedPictures = [];
   $scope.stashRows = [];
   $scope.stashRowsToReechantillonate = [];
-  $scope.hoverZoom = 1;
   $scope.reechantillonatingPageSize = 200;
 
   $scope.selectAlbum = function (album) {
     $scope.selectedAlbum = album;
     var width = $scope.stashWidth;
-    console.log(width);
         $scope.stash = buildNewStash(width, $scope.scale);
     angular.forEach(album.pictures, function(value, key){
       $scope.stash.addPicture(value);
@@ -333,24 +327,6 @@ app.controller('PicsCtrl', function($scope, $timeout) {
     $scope.stash.reechantillonate($scope.stashWidth, $scope.scale, pageSize, $timeout);
   };
 
-  $scope.addRandomPicture = function(number) {
-    if (!number || number < 1) {
-      number = 1;
-    }
-
-    for (var k = 0; k < number; k++) {
-      var newPic = {};
-      var width = Math.floor(Math.random() * 600) + 100; // 50 - 450
-      //var height = Math.floor(Math.random() * 100) + 50; // 50 - 150
-      var height = 200;
-
-      newPic.thumbnail = 'http://placehold.it/' + width + 'x' + height;
-      newPic.image = 'http://placehold.it/' + width + 'x' + height;
-      newPic.thumbnailWidth = width;
-      newPic.thumbnailHeight = height;
-
-      $scope.stash.addPicture(newPic);
-    }
   };
   $scope.startAddRandomPicture = function() {
     $scope.autoAdding = setTimeout(function() {
@@ -375,29 +351,15 @@ app.controller('PicsCtrl', function($scope, $timeout) {
 
   };
   $scope.selectPicture = function($event, picture) {
-    console.log('toggle selection on picture');
     picture.selected = !picture.selected;
     picture.overlayed = picture.selected;
 
     var array = $scope.selectedPictures;
     if (picture.selected) {
       array.push(picture);
-      //picture.zoom = 1;
     } else {
       array.splice(array.indexOf(picture), 1);
-      //picture.zoom = 1;
     }
-  };
-  $scope.rotatePictureLeft = function($event, picture) {
-    picture.waitingMsg = 'Rotating to the left...';
-    picture.rotatingLeft = true;
-    picture.overlayed = true;
-  };
-
-  $scope.rotatePictureRight = function($event, picture) {
-    picture.waitingMsg = 'Rotating to the right...';
-    picture.rotatingRight = true;
-    picture.overlayed = true;
   };
 
   $scope.removePicture = function($event, picture) {
@@ -405,135 +367,9 @@ app.controller('PicsCtrl', function($scope, $timeout) {
     picture.overlayed = picture.removed;
   };
 
-  $scope.overlayAction = function($event, picture) {
-    if (picture.overlayed) {
-      if (picture.selected) {
-        $scope.selectPicture($event, picture);
-      } else if (picture.removed) {
-        $scope.removePicture($event, picture);
-      }
-    }
-  };
 
   $scope.selectAlbum($scope.albums[1]);
-  $scope.addRandomPicture(50);
 });
-
-
-
-function getBodyWidth() {
-  return document.getElementsByTagName('body')[0].offsetWidth;
-}
-
-function buildNewStash(width, scale) {
-  var stash = {
-    pictures : [],
-    size: 0,
-    rows : [],
-    scale : (scale) ? scale / 100 : 1,
-    width : (width) ? width : 600,
-    margin : 1,
-    getLastRow : function() {
-      if (this.rows.length < 1) {
-        this.addNewRow();
-      }
-      return this.rows[this.rows.length -1];
-    },
-    addNewRow : function() {
-      var parentStash = this;
-      var newRow = {
-        pictures : [],
-        height : 0,
-        width : 0,
-        addPicture : function(picture) {
-          var nbPic = this.pictures.length || 0;
-          var hypotheticWidth = nbPic * parentStash.margin + this.width + picture.width;
-          if (hypotheticWidth > parentStash.width) {
-            return false;
-          }
-
-          this.pictures.push(picture);
-          this.height = Math.max(this.height, picture.height);
-          this.width += picture.width;
-
-          return true;
-        },
-        finalizeRow : function() {
-          var ratio = (parentStash.width - 1 - parentStash.margin * this.pictures.length) / this.width;
-          this.height = Math.round(this.height * ratio);
-
-          var offset = 0;
-          angular.forEach(this.pictures, function(value, key) {
-            // Enlarge thumbnails of row to occupy all the width
-            var exactWidth = value.width * ratio + offset;
-            var roundedWidth = Math.round(exactWidth);
-
-            // offset due to rounding
-            offset = exactWidth - roundedWidth;
-
-            value.width = roundedWidth;
-            value.height = this.height;
-          }, this);
-        }
-      };
-      this.rows.push(newRow);
-      console.log('Added new row: #' + (this.rows.length - 1));
-
-      return newRow;
-    },
-    addPicture : function(picture) {
-      picture.selected = false;
-      picture.zoom = 1;
-      this.pictures.push(picture);
-
-      this._addPictureInternal(picture);
-    },
-    _addPictureInternal : function(picture) {
-      // Rescale
-      picture.width = Math.round(picture.thumbnailWidth * this.scale);
-      picture.height = Math.round(picture.thumbnailHeight * this.scale);
-
-      var lastRow = this.getLastRow();
-      var enoughSpace = lastRow.addPicture(picture);
-      if (!enoughSpace) {
-        // Not enough space in row for the picture
-        lastRow.finalizeRow();
-
-        var newRow = this.addNewRow();
-        newRow.addPicture(picture);
-      }
-      this.size ++;
-    },
-    reechantillonate : function(width, scale, pageSize, $timeout) {
-      // Stop current job
-      if (this.job) {
-        $timeout.cancel(this.job)
-      }
-
-      // Update stash configuration
-      this.scale = (scale) ? scale / 100 : 1;
-      this.width = (width) ? width : 600;
-      this.size = 0;
-      // Purge rows
-      this.rows.length = 0;
-
-      // Launch reechantonation process
-      this._reechantillonatePageInternal(0, pageSize, $timeout);
-    },
-    _reechantillonatePageInternal : function(page, pageSize, $timeout) {
-      for (var k = page * pageSize; k < (page + 1) * pageSize; k++) {
-        if (k < this.pictures.length) {
-          this._addPictureInternal(this.pictures[k]);
-        }
-      }
-      var parentStash = this;
-      if ((page + 1) * pageSize < this.pictures.length) {
-        parentStash.job = $timeout(function() {
-          parentStash._reechantillonatePageInternal(page + 1, pageSize, $timeout);
-        }, 500);
-      }
-    }
-  };
 
   return stash;
 }

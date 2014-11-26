@@ -92,11 +92,12 @@ class AlbumModel
 
      */
     public function addImageAlbum($id_image,$id_album){
-        $id = strip_tags($id);
+        $id_image = strip_tags($id_image);
+        $id_album = strip_tags($id_album);
 
-        $sql = "INSERT into appartient_album (album_id,image_id) VALUES (:id,'".$id_image."')";
+        $sql = "INSERT into appartient_album (album_id,image_id) VALUES (:album_id, :id_image)";
         $query = $this->db->prepare($sql);
-        $parameters = array(':idImg' => $idImg);
+        $parameters = array(':album_id' => $album_id, ':id_image' => $id_image);
 
         $query->execute($parameters);
 
@@ -123,12 +124,13 @@ class AlbumModel
     /**
 
      */
-    public function getImageByAlbum($album){
-        $id = strip_tags($id);
+    public function getImageByAlbum($album_id, $image_id){
+        $album_id = strip_tags($album_id);
+        $image_id = strip_tags($image_id);
 
         $sql = "SELECT * FROM image  where id in (select :image_id from partof_album where album_id= :album_id";
         $query = $this->db->prepare($sql);
-        $parameters = array(':idImg' => $idImg, ':idImg' => $idImg);
+        $parameters = array(':image_id' => $image_id, ':album_id' => $album_id);
 
         $query->execute($parameters);
 
@@ -137,15 +139,14 @@ class AlbumModel
     }
 
     /**
-     * Every model needs a database connection, passed to the model
-     * @param object $db A PDO database connection
+
      */
     public function getOtherAlbumImg($albumId){
-        $id = strip_tags($id);
+        $album_id = strip_tags($albumId);
 
-        $sql = "SELECT * FROM image  WHERE id NOT IN (select image_id from appartient_album where album_id=".$albumId."";
+        $sql = "SELECT * FROM image  WHERE id NOT IN (select image_id from partof_album where album_id= :album_id";
         $query = $this->db->prepare($sql);
-        $parameters = array(':idImg' => $idImg);
+        $parameters = array(':album_id' => $album_id);
 
         $query->execute($parameters);
 
@@ -161,7 +162,9 @@ class AlbumModel
 
         $sql = "SELECT id FROM imgAlbum WHERE id= :id'";
         $query = $this->db->prepare($sql);
-        $query->execute();
+        $parameters = array(':id' => $id);
+
+        $query->execute($parameters);
 
         return $query->fetchAll();
 
@@ -170,12 +173,14 @@ class AlbumModel
     /**
 
      */
-    public function getIdsAlbumImg($idImg){
+    public function getIdsAlbumImg($id){
         $id = strip_tags($id);
 
-        $sql = "SELECT idAlbum FROM imgAlbum WHERE idImg='$idImg'";
+        $sql = "SELECT idAlbum FROM imgAlbum WHERE id= :id";
         $query = $this->db->prepare($sql);
-        $query->execute();
+        $parameters = array(':id' => $id);
+
+        $query->execute($parameters);
 
         return $query->fetchAll();
 
