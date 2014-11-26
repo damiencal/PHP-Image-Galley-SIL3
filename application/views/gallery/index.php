@@ -8,9 +8,9 @@
     <div class="row">
         <div class="col-md-8">
             <div>
-                <form class="form" action="<?php echo URL; ?>gallery/deleteimage/<?php if (isset($image[0]->id)) echo $image[0]->id; ?>" method="POST">
-                <button type="submit" class="btn btn-xs btn-danger" name="submit_delete_image">Delete</button>
-                </form>
+               <a type="button" class="btn btn-xs btn-danger" href="<?php echo URL; ?>gallery/deleteimage/<?php if (isset($image[0]->id)) echo $image[0]->id; ?>"> Delete </a>
+                <a type="button" class="btn btn-xs btn-default" href="<?php echo URL; ?>gallery/index/<?php if (isset($image[0]->id)) echo $image[0]->id; ?>"> Previous </a>
+                <a type="button" class="btn btn-xs btn-default" href="<?php echo URL; ?>gallery/index/<?php if (isset($image[0]->id)) echo $image[0]->id; ?>"> Next </a>
             </div>
             <img class="img-responsive" src="<?php echo URL; ?><?php if (isset($image[0]->path)) echo $image[0]->path; ?>" alt="<?php if (isset($image[0]->name)) echo $image[0]->name; ?>">
         </div>
@@ -59,7 +59,7 @@
             <h1 class="page-header">Image Gallery</h1>
         </div>
             <?php foreach ($images as $images) { ?>
-                <div class="col-lg-3 col-md-4 col-xs-6 thumb">
+                <div class="col-lg-4 col-sm-6 col-xs-12">
                     <a class="thumbnail" href="<?php echo URL; ?>gallery/index/<?php if (isset($images->id)) echo $images->id; ?>">
                     <img class="img-responsive" src="<?php echo URL; ?><?php if (isset($images->path)) echo $images->path; ?>" alt="<?php if (isset($images->name)) echo $images->name; ?>">
                     </a>

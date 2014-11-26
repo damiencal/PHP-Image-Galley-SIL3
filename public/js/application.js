@@ -288,10 +288,8 @@ m&&m.databound||(m=c);f?a.$watch(f,function(a,c){e.$set("value",a);c!==a&&m.remo
 var soClean = angular.module('soClean', []);
 soClean.controller('soCleanLandingPage', ['$scope',
     function ($scope) {
-        $scope.locale = 'vancouver';
-        $scope.type = 'residential';
-        $scope.service = 'pressure washing';
-        $scope.serviceSingle = 'pressure wash';
+        $scope.name = 'nametest';
+        $scope.path = 'public/img/2.png';
                 }]);
 
 
@@ -301,17 +299,17 @@ var app = angular.module('pics', []);
 app.controller('PicsCtrl', function($scope, $timeout) {
   $scope.albums = [
       {name : 'Album 1', id : '1', pictures : [
-        { id : '1', thumbnailWidth: 150, thumbnailHeight: 100, thumbnail : 'http://placehold.it/150x150', image : 'http://placehold.it/350x150'},
-        { id : '2', thumbnailWidth: 150, thumbnailHeight: 100, thumbnail : 'http://placehold.it/150x150', image : 'http://placehold.it/350x150'},
-        { id : '3', thumbnailWidth: 150, thumbnailHeight: 100, thumbnail : 'http://placehold.it/150x150', image : 'http://placehold.it/350x150'}]},
+        { id : '1', thumbnailWidth: 150, thumbnailHeight: 100, thumbnail : 'http://localhost/150x150', image : 'http://localhost/350x150'},
+        { id : '2', thumbnailWidth: 150, thumbnailHeight: 100, thumbnail : 'http://localhost/150x150', image : 'http://localhost/350x150'},
+        { id : '3', thumbnailWidth: 150, thumbnailHeight: 100, thumbnail : 'http://localhost/150x150', image : 'http://localhost/350x150'}]},
       {name : 'Album 2', id : '2', pictures : [
-        { id : '4', thumbnailWidth: 150, thumbnailHeight: 100, thumbnail : 'http://placehold.it/150x50', image : 'http://placehold.it/350x150'},
-        { id : '5', thumbnailWidth: 150, thumbnailHeight: 100, thumbnail : 'http://placehold.it/150x50', image : 'http://placehold.it/350x150'},
-        { id : '6', thumbnailWidth: 150, thumbnailHeight: 100, thumbnail : 'http://placehold.it/150x50', image : 'http://placehold.it/350x150'}]},
+        { id : '4', thumbnailWidth: 150, thumbnailHeight: 100, thumbnail : 'http://localhost/150x50', image : 'http://localhost/350x150'},
+        { id : '5', thumbnailWidth: 150, thumbnailHeight: 100, thumbnail : 'http://localhost/150x50', image : 'http://localhost/350x150'},
+        { id : '6', thumbnailWidth: 150, thumbnailHeight: 100, thumbnail : 'http://localhost/150x50', image : 'http://localhost/350x150'}]},
       {name : 'Album 3', id : '3', pictures : [
-        { id : '7', thumbnailWidth: 150, thumbnailHeight: 100, thumbnail : 'http://placehold.it/150x250', image : 'http://placehold.it/350x150'},
-        { id : '8', thumbnailWidth: 150, thumbnailHeight: 100, thumbnail : 'http://placehold.it/150x250', image : 'http://placehold.it/350x150'},
-        { id : '9', thumbnailWidth: 150, thumbnailHeight: 100, thumbnail : 'http://placehold.it/150x250', image : 'http://placehold.it/350x150'}]},
+        { id : '7', thumbnailWidth: 150, thumbnailHeight: 100, thumbnail : 'http://localhost/150x250', image : 'http://localhost/350x150'},
+        { id : '8', thumbnailWidth: 150, thumbnailHeight: 100, thumbnail : 'http://localhost/150x250', image : 'http://localhost/350x150'},
+        { id : '9', thumbnailWidth: 150, thumbnailHeight: 100, thumbnail : 'http://localhost/150x250', image : 'http://localhost/350x150'}]},
     ];
   $scope.stashWidth = getBodyWidth();
   $scope.scale = 100;
