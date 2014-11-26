@@ -27,7 +27,7 @@ class Album extends Controller
     }
     /**
      * ACTION: addAlbum
-     * This method handles what happens when you move to http://yourproject/songs/addalbum
+     * This method handles what happens when you move to http://yourproject/albums/addalbum
      * IMPORTANT: This is not a normal page, it's an ACTION. This is where the "add a album" form on album/index
      * directs the user after the form submit. This method handles all the POST data from the form and then redirects
      * the user back to album/index via the last line: header(...)
@@ -41,7 +41,7 @@ class Album extends Controller
             $album_model->addAlbum($_POST["id"], $_POST["name"]);
         }
 
-        // where to go after song has been added
+        // where to go after album has been added
         header('location: ' . URL . 'album/index');
     }
 
@@ -56,14 +56,14 @@ class Album extends Controller
     public function deleteAlbum($id)
     {
 
-        // if we have an id of a song that should be deleted
+        // if we have an id of a album that should be deleted
         if (isset($id)) {
             // load model, perform an action on the model
             $album_model = $this->loadModel('AlbumModel');
             $album_model->deleteAlbum($id);
         }
 
-        // where to go after song has been deleted
+        // where to go after album has been deleted
         header('location: ' . URL . 'album/index');
     }
 

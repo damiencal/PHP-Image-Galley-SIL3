@@ -71,18 +71,6 @@ class GalleryModel
         return $query->fetchAll();
     }
 
-     /**
-      * Return Image Categories
-      */
-    public function getCategories() {
-
-        $sql = "SELECT DISTINCT category FROM image ORDER BY category";
-        $query = $this->db->prepare($sql);
-        $query->execute();
-
-        return $query->fetchAll();
-    }
-
 	/**
      * Add a image to database
      * @param string $name Name
@@ -110,49 +98,30 @@ class GalleryModel
      * @param string $category Category
      * @param string $comment Comment
      */
-	public function updateImage($id, $name, $path, $category, $comment) {
+	public function updateImage($id, $category, $comment, $vote) {
         $id = strip_tags($id);
-        $name = strip_tags($name);
-        $path = strip_tags($path);
         $category = strip_tags($category);
         $comment = strip_tags($comment);
+        $vote = strip_tags($vote);
 
-        $sql = "UPDATE image SET name= :name, path= :path, category= :category, comment= :comment WHERE id= :id";
+        $sql = "UPDATE image SET category= :category, comment= :comment, vote= :vote WHERE id= :id";
         $query = $this->db->prepare($sql);
-        $parameters = array(':name' => $name, ':path' => $path, ':category' => $category, ':comment' => $comment, ':id' => $id);
+        $parameters = array(':category' => $category, ':comment' => $comment, ':vote' => $vote, ':id' => $id);
 
         $query->execute($parameters);
     }
 
     /**
      * Delete an image from database
-     * @param string $path Path
-     * @param string $category Category
-     * @param string $comment Comment
+     * @param var $id ID
      */
     public function deleteImage($id){
-        $id = strip_tags($id);
+        $id = $id;
 
         $sql = "DELETE * FROM image WHERE id = :id";
         $query = $this->db->prepare($sql);
         $query->execute(array(':id' => $id));
 
-    }
-
-     /**
-      * Retourne l'image précédente d'une image
-      */
-    public function getPrevImage($id) {
-        $id = strip_tags($id);
-        $img = null;
-
-        if ($id > 1) {
-                $img = $this->getImage($id-1);
-        }
-        else {
-				$img = $this->getImage($this->count());
-        }
-			return $img;
     }
 
 }

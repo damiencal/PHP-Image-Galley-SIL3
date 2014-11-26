@@ -14,16 +14,24 @@ class Gallery extends Controller
      * PAGE: gallery
      * This method handles what happens when you move to http://yourproject/gallery/index
      */
-    public function index()
+    public function index($id)
     {
         // load a model, perform an action, pass the returned data to a variable
         $gallery_model = $this->loadModel('Model');
         $amount_of_images = $gallery_model->getAmountOfImages();
+        $categories = $gallery_model->getCategories();
+
+
 
         // load a model, perform an action, pass the returned data to a variable
-        $id = 2;
         $gallery_model = $this->loadModel('GalleryModel');
-        $image = $gallery_model->getImage($id);
+
+        if (isset($id)) {
+            $image = $gallery_model->getImage($id);
+        } else {
+            $id =2;
+            $image = $gallery_model->getImage($id);
+               }
 
         // load a model, perform an action, pass the returned data to a variable
         $images = $gallery_model->getAllImages();
@@ -36,19 +44,13 @@ class Gallery extends Controller
 
     /**
      * ACTION: getImage
-     * This method handles what happens when you move to http://yourproject/gallery/index
+     * This method handles what happens when you move to http://yourproject/gallery/getimage
      * IMPORTANT: This is not a normal page, it's an ACTION. This is where the "add a album" form on album/index
      * directs the user after the form submit. This method handles all the POST data from the form and then redirects
      * the user back to album/index via the last line: header(...)
      */
-    public function getImage()
+    public function getImage($id)
     {
-        // if we have POST data to create a new Album
-        if (isset($_POST["submit_add_image"])) {
-            // load model, perform an action on the model
-            $image_model = $this->loadModel('GalleryModel');
-            $image_model->addImage($_POST["name"], $_POST["path"], $_POST["category"], $_POST["comment"]);
-        }
 
         // redirect after image has been added
         header('location: ' . URL . 'gallery/index');
@@ -57,7 +59,7 @@ class Gallery extends Controller
 
     /**
      * ACTION: addImage
-     * This method handles what happens when you move to http://yourproject/gallery/add
+     * This method handles what happens when you move to http://yourproject/gallery/addimage
      * IMPORTANT: This is not a normal page, it's an ACTION. This is where the "add a album" form on album/index
      * directs the user after the form submit. This method handles all the POST data from the form and then redirects
      * the user back to album/index via the last line: header(...)
@@ -68,8 +70,46 @@ class Gallery extends Controller
         if (isset($_POST["submit_add_image"])) {
             // load model, perform an action on the model
             $image_model = $this->loadModel('GalleryModel');
-            $image_model->addImage($_POST["name"], $_POST["path"], $_POST["category"], $_POST["comment"]);
+            $image_model->addImage($_POST["name"], $_POST["path"], $_POST["category"]);
         }
+
+        // redirect after image has been added
+        header('location: ' . URL . 'gallery/index');
+    }
+
+    /**
+     * ACTION: updateImage
+     * This method handles what happens when you move to http://yourproject/gallery/updateimage/*
+     * IMPORTANT: This is not a normal page, it's an ACTION. This is where the "add a album" form on album/index
+     * directs the user after the form submit. This method handles all the POST data from the form and then redirects
+     * the user back to album/index via the last line: header(...)
+     */
+    public function updateImage()
+    {
+        // if we have POST data to update an image
+        if (isset($_POST["submit_update_image"])) {
+            // load model, perform an action on the model
+            $image_model = $this->loadModel('GalleryModel');
+            $image_model->updateImage($_POST["id"], $_POST["category"], $_POST["comment"], $_POST["vote"]);
+        }
+
+        // redirect after image has been added
+        header('location: ' . URL . 'gallery/index');
+    }
+
+    /**
+     * ACTION: deleteImage
+     * This method handles what happens when you move to http://yourproject/gallery/deleteimage/*
+     * IMPORTANT: This is not a normal page, it's an ACTION. This is where the "add a album" form on album/index
+     * directs the user after the form submit. This method handles all the POST data from the form and then redirects
+     * the user back to album/index via the last line: header(...)
+     */
+    public function deleteImage($id)
+    {
+        $id = 3;
+        // load model, perform an action on the model
+        $image_model = $this->loadModel('GalleryModel');
+        $image_model->deleteImage($id);
 
         // redirect after image has been added
         header('location: ' . URL . 'gallery/index');
@@ -77,7 +117,7 @@ class Gallery extends Controller
 
 }
 
-# Retourne une image au hazard
+        # Retourne une image au hazard
 		function getRandomImage() {
 			return $this->getImage(rand(1,$this->size()));
 		}
@@ -105,118 +145,8 @@ class Gallery extends Controller
 			return $img;
 		}
 
-		# saute en avant ou en arrière de $nb images
-		# Retourne la nouvelle image
-		function jumpToImage(image $img, $nb) {
-			$id = $img->getId();
-			if (($id+$nb) > 0 && ($id+$nb) < $this->size()) {
-				$img = $this->getImage($id+$nb);
-			}
-			return $img;
-		}
-
-		# Retourne la liste des images consécutives à partir d'une image
-		function getImageList(image $img, $nb) {
-			# Verifie que le nombre d'image est non nul
-			if (!$nb > 0) {
-				debug_print_backtrace();
-				trigger_error("Erreur dans ImageDAO.getImageList: nombre d'images nul");
-			}
-			$id = $img->getId();
-			$max = $id+$nb;
-			while ($id < $this->size() && $id < $max) {
-				$res[] = $this->getImage($id);
-				$id++;
-			}
-			return $res;
-		}
 
 
-
-###############
-if(isset($_FILES['image'])) {
-            echo "1";
-            $name = $_FILES['image']['name'];
-            $size = $_FILES['image']['size'];
-
-
-if(strlen($name))
-    {
-    list($txt, $ext) = explode(".", $name);
-if(in_array($ext,$valid_formats))
-    {
-if($size<(2048*2048))
-    {
-        $actual_image_name = time().substr(str_replace(" ", "_", $txt), 5).".".$ext;
-        $tmp = $_FILES['image']['tmp_name'];
-
-if(move_uploaded_file($tmp, $path.$actual_image_name))
-    {
-
-        mysql_query("UPDATE tutor SET avatar='$actual_image_name' WHERE userName='Isuru'");
-        echo "Hari";
-    }else
-        echo die(mysql_error());
-
-    }else
-
-        echo "exceed the file size";
-
-    }else
-        echo "Not a valid format";
-
-
-    }else
-        echo "no file is selected";
-
-
-        }
-
-
-
-#################
-
-class UploadFile {
-
-		function __construct() {
-			$this->imageDAO = new ImageDAO();
-		}
-
-		/**
-		 *permet de mettre l'image courante sur la premiere image
-		 */
-		function index(){
-			global $imgId,$size,$data,$nbImg;
-			$data = new data();
-
-
-			$imgId = 1;
-			$size = 480;
-			$nbImg = 1;
-
-			if(isset($_GET['success'])){
-				$data->success= $_GET['success'];
-				switch ( $data->success ) {
-					case 1:
-						$data->msgErreur="Une image de même nom existe déjà.";
-						break;
-					case 2:
-						$data->msgErreur="Le fichier est corrompu.";
-						break;
-					case 3:
-						$data->msgErreur="Le fichier n'est pas au bon Format ou trop gros.";
-						break;
-					case 4:
-						$data->msgErreur="Le dossier de destination n'a pu être crée.";
-						break;
-					default:
-						break;
-					}
-				}
-			$data->content = "viewUploadFile.php";
-			$data->categories = $this->getImageDAO()->getCategories();
-			require_once("view/mainView.php");
-		}
 
 		function uploadImg() {
 			$allowedExts = array("jpg", "jpeg", "gif", "png", "bmp");
@@ -283,7 +213,6 @@ class UploadFile {
 		function getImageDAO(){
 			return $this->imageDAO;
 		}
-	}
 
 
 ############
@@ -349,66 +278,7 @@ class Photo {
 			$data = new data();
 		}
 
-		//////////////////////// LISTE DES ACTIONS DE CE CONTROLEUR/////////////////////////////
 
-		/**
-		 * initialisation du controleur
-		 */
-		function index(){
-			$this->first();
-		}
-
-		/**
-		 *initialisation de la page
-		 */
-		function configureSlideShow(){
-			global $albumId,$imgId,$size,$data,$nbImg,$categorie;
-			// Pre-calcule les images
-			$newImg = $this->getImageDAO()->getImage(1);
-			$newImgId=$newImg->getId();
-
-			$randomImg = $this->getImageDAO()->getRandomImage();
-			$randomImgId = $randomImg->getId();
-
-			$newSize=480;
-			$data->styles["#slideShow"]["width"]= ($size+130)."px";
-			$data->styles["#next,#prev"]["height"]= ($size/3)."px";
-
-
-
-			// pre-calcul de l'image précedente
-			$data->prevImg = $this->getImageDAO()->getPrevImage($data->img);
-			// pre-calcul de l'image suivante
-			$data->nextImg = $this->getImageDAO()->getNextImage($data->img);
-
-			# Mise en place des outils
-			$data->tools['First']="index.php?controller=photo&action=first&imgId=$newImgId&size=$newSize&categorie=$categorie";
-			# Pre-calcule une image au hasard
-			$data->tools['Random']="index.php?controller=photo&action=random&imgId=$randomImgId&size=$size&categorie=$categorie";
-			# Pour afficher plus d'image passe à une autre page
-			if($categorie!=null && $nbImg==$this->getImageDAO()->getNbImageCategory($categorie)){
-				$data->styles["#More"]["display"]= "none";
-			}else{
-				$nbImg =$nbImg +1;
-				$data->tools['More']="index.php?controller=photoMatrix&action=more&imgId=$imgId&size=$size&nbImg=$nbImg&categorie=$categorie";
-			}
-			// Demande à calculer un zoom sur l'image
-			$data->tools['Zoom +']="index.php?controller=photo&action=zoom&imgId=$imgId&size=".($size*1.25)."&categorie=$categorie";
-			// Demande à calculer un zoom sur l'image
-			$data->tools['Zoom -']="index.php?controller=photo&action=zoom&imgId=$imgId&size=".($size*0.75)."&categorie=$categorie";
-			$data->toolsimg['First']="first.png";
-			$data->toolsimg['Random']="random.png";
-			$data->toolsimg['More']="add.png";
-			$data->toolsimg['Less']="less.png";
-			$data->toolsimg['Zoom +']="zoom+.png";
-			$data->toolsimg['Zoom -']="zoom-.png";
-
-			$data->albums = $this->getImageDAO()->getAlbums();
-			$data->categories = $this->getImageDAO()->getCategories();
-			$data->select = $this->getImageDAO()->getImage($imgId);
-			$data->note = $this->getImageDAO()->getNote($imgId);
-			$data->categorie = $categorie;
-		}
 
 		/**
 		 *permet de mettre l'image courante sur la premiere image
@@ -509,42 +379,8 @@ class Photo {
 
 		}
 
-		/**
-		 *permet de zoomer sur l'image courante
-		 */
-		function zoom(){
-			$this->next();
-		}
 
-		/**
-		 * return ImageDAO
-		 */
-		function getImageDAO(){
-			return $this->imageDAO;
-		}
 
-		/**
-		 *permet de mettre a jour les infos de l'image courante puis l'affiche
-		 */
-		function updatePhoto(){
-			global $imgId,$size,$data,$nbImg,$categorie;
-			$this->getParam();
-
-			$data->content = "viewPhoto.php";
-			$data->cssfiles = array("photo.css");
-			$img = $this->getImageDAO()->getImage($imgId);
-			if (!isset($_POST["category2"]) || $_POST["category2"]=="" || $_POST["category2"]==NULL){
-				$img->setCategory(addslashes($_POST["category"]));
-			}else{
-				$img->setCategory(addslashes($_POST["category2"]));
-			}
-			$img->setComment(addslashes($_POST["comment"]));
-			$this->getImageDAO()->updateImg($img);
-			// Construit l'image courante
-			$data->img = $img;
-			$this->configureSlideShow();
-			require_once("view/mainView.php");
-		}
 
 		/**
 		 *permet de mettre a jour les infos de l'image sur les notes de l'image

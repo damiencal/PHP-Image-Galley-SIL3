@@ -29,44 +29,18 @@ class Model
         return $query->fetch()->amount_of_images;
     }
 
+    public function getCategories() {
+
+        $sql = "SELECT DISTINCT category FROM image ORDER BY category";
+        $query = $this->db->prepare($sql);
+        $query->execute();
+
+        // fetchAll() is the PDO method that gets all result rows
+        return $query->fetchAll();
+    }
 
 
 
-
-
-
-
-
-
-    /**
-	 * Retourne un element à partir de son Id
-	 */
-	function findById($classeName, $id) {
-		return $this->requeteRechercheSimple("SELECT * FROM $classeName WHERE id = $id limit 1",$classeName);
-	}
-
-//	/**
-//	 * Retourne le nombre d'éléments d'une table
-//	 */
-//	function doCount($tableName,$where="") {
-//		$result = null;
-//		try {
-//			$sth = $this->db->query("SELECT count(*) FROM $tableName ".$where);
-//			$result = $sth->fetch();
-//			$result = $result[0];
-//
-//			return $result;
-//	}
-
-//
-//	/**
-//	 * Retourne toutes les categories existantes
-//	 */
-//	function getCategories($classeName) {
-//		return $this->requeteRechercheAvancee("SELECT DISTINCT category FROM image ORDER BY category",$classeName);
-//	}
-//
-//
 //
 //	/**
 //	 * Retourne les id des images pour un idAlbum donné
