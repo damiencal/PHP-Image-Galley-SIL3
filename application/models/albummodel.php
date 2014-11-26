@@ -15,8 +15,8 @@ class AlbumModel
     }
 
     /**
-    * Return all albums
-    */
+     * Return all albums
+     */
     public function getAllAlbums(){
         $sql = "SELECT * FROM album";
         $query = $this->db->prepare($sql);
@@ -26,15 +26,16 @@ class AlbumModel
     }
 
     /**
-     * Every model needs a database connection, passed to the model
-     * @param object $db A PDO database connection
+     *
      */
-    public function getAlbum($id){
-        $id = $id;
+    public function getAlbum($id_album){
+        $id = strip_tags($id_album);
 
-        $sql = "SELECT * FROM album WHERE id = $id limit 1";
+        $sql = "SELECT * FROM album WHERE id = :id limit 1";
         $query = $this->db->prepare($sql);
-        $query->execute();
+        $parameters = array(':id' => $id);
+
+        $query->execute($parameters);
 
         return $query->fetchAll();
 
@@ -42,94 +43,94 @@ class AlbumModel
     }
 
     /**
-     * Every model needs a database connection, passed to the model
-     * @param object $db A PDO database connection
+
      */
-    public function removeAlbum($id){
-        $id = $id;
+    public function removeAlbum($id_album){
+        $id = strip_tags($id_album);
 
-        $sql = "DELETE FROM album WHERE id = $id_album";
+        $sql = "DELETE FROM album WHERE id = :id";
         $query = $this->db->prepare($sql);
-        $query->execute();
+        $parameters = array(':id' => $id);
 
-        return $query->fetchAll();
+        $query->execute($parameters);
 
     }
 
     /**
-     * Every model needs a database connection, passed to the model
-     * @param object $db A PDO database connection
+
      */
     public function emptyAlbum($id_album){
-                $id = $id;
+        $id = strip_tags($id_album);
 
-        $sql = "DELETE FROM appartient_album WHERE album_id = $id_album";
+        $sql = "DELETE FROM appartient_album WHERE id = :id";
         $query = $this->db->prepare($sql);
-        $query->execute();
+        $parameters = array(':id' => $id);
 
-        return $query->fetchAll();
+        $query->execute($parameters);
 
     }
 
     /**
-     * Every model needs a database connection, passed to the model
-     * @param object $db A PDO database connection
+
      */
-    public function addAlbum($id_album, $name, $description){
-        $id = $id_album;
-        $name = $name;
-        $description = $description;
+    public function addAlbum($name, $description){
+        $name = strip_tags($name);
+        $description = strip_tags($description);
 
 
-        $sql = "INSERT INTO album (id, name, description) VALUES(NULL,'".$name."','".$description."',$imgEnavant)";
+        $sql = "INSERT INTO album (id, name, description) VALUES(NULL, :name, :description)";
         $query = $this->db->prepare($sql);
-        $query->execute();
+        $parameters = array(':id' => $id, ':name' => $name, ':description' => $description);
+
+        $query->execute($parameters);
 
         return $query->fetchAll();
 
     }
 
     /**
-     * Every model needs a database connection, passed to the model
-     * @param object $db A PDO database connection
+
      */
     public function addImageAlbum($id_image,$id_album){
-                $id = $id;
+        $id = strip_tags($id);
 
-        $sql = "INSERT into appartient_album (album_id,image_id) VALUES ('".$id_album."','".$id_image."')";
+        $sql = "INSERT into appartient_album (album_id,image_id) VALUES (:id,'".$id_image."')";
         $query = $this->db->prepare($sql);
-        $query->execute();
+        $parameters = array(':idImg' => $idImg);
+
+        $query->execute($parameters);
 
         return $query->fetchAll();
 
     }
 
     /**
-     * Every model needs a database connection, passed to the model
-     * @param object $db A PDO database connection
+
      */
-    public function removeImageAlbum($id_image,$id_album){
-                $id = $id;
+    public function removeImageAlbum($album_id,$image_id){
+        $album_id = strip_tags($album_id);
+        $image_id = strip_tags($image_id);
 
-        $sql = "ELETE FROM appartient_album WHERE album_id = $id_album AND image_id =";
+        $sql = "ELETE FROM partof_album WHERE album_id = :album_id AND image_id = :image_id";
         $query = $this->db->prepare($sql);
-        $query->execute();
+         $parameters = array(':album_id' => $album_id, ':image_id' => $image_id);
 
-        return $query->fetchAll();
+        $query->execute($parameters);
 
 
     }
 
     /**
-     * Every model needs a database connection, passed to the model
-     * @param object $db A PDO database connection
+
      */
     public function getImageByAlbum($album){
-                $id = $id;
+        $id = strip_tags($id);
 
-        $sql = "SELECT * FROM image  where id in (select image_id from appartient_album where album_id=";
+        $sql = "SELECT * FROM image  where id in (select :image_id from partof_album where album_id= :album_id";
         $query = $this->db->prepare($sql);
-        $query->execute();
+        $parameters = array(':idImg' => $idImg, ':idImg' => $idImg);
+
+        $query->execute($parameters);
 
         return $query->fetchAll();
 
@@ -140,22 +141,23 @@ class AlbumModel
      * @param object $db A PDO database connection
      */
     public function getOtherAlbumImg($albumId){
-                $id = $id;
+        $id = strip_tags($id);
 
         $sql = "SELECT * FROM image  WHERE id NOT IN (select image_id from appartient_album where album_id=".$albumId."";
         $query = $this->db->prepare($sql);
-        $query->execute();
+        $parameters = array(':idImg' => $idImg);
+
+        $query->execute($parameters);
 
         return $query->fetchAll();
 
     }
 
     /**
-     * Every model needs a database connection, passed to the model
-     * @param object $db A PDO database connection
+
      */
     public function getIdsImgAlbum($id){
-        $id = $id;
+        $id = strip_tags($id);
 
         $sql = "SELECT id FROM imgAlbum WHERE id= :id'";
         $query = $this->db->prepare($sql);
@@ -166,11 +168,10 @@ class AlbumModel
     }
 
     /**
-     * Every model needs a database connection, passed to the model
-     * @param object $db A PDO database connection
+
      */
     public function getIdsAlbumImg($idImg){
-        $id = $id;
+        $id = strip_tags($id);
 
         $sql = "SELECT idAlbum FROM imgAlbum WHERE idImg='$idImg'";
         $query = $this->db->prepare($sql);
@@ -185,14 +186,16 @@ class AlbumModel
      * Get a album image id
      * @param string $idImg Image ID
      */
-	function getIdAlbumImg($idImg) {
-        $idImg = $idImg;
+	function getIdAlbumImg($id) {
+        $id = strip_tags($id);
 
-        $sql = "SELECT idAlbum FROM imgAlbum WHERE idImg=:idImg";
+        $sql = "SELECT idAlbum FROM imgAlbum WHERE id=:id";
         $query = $this->db->prepare($sql);
-        $parameters = array(':idImg' => $idImg);
+        $parameters = array(':id' => $id);
 
         $query->execute($parameters);
+
+        return $query->fetchAll();
 	}
 
 
@@ -209,6 +212,7 @@ class AlbumModel
         $parameters = array(':name' => $name);
 
         $query->execute($parameters);
+
 	}
 
 

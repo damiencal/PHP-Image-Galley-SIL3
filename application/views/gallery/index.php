@@ -9,7 +9,7 @@
         <div class="col-md-8">
             <div>
                <a type="button" class="btn btn-xs btn-danger" href="<?php echo URL; ?>gallery/deleteimage/<?php if (isset($image[0]->id)) echo $image[0]->id; ?>"> Delete </a>
-                <a type="button" class="btn btn-xs btn-default" href="<?php echo URL; ?>gallery/index/<?php if (isset($image[0]->id)) echo $image[0]->id; ?>"> Previous </a>
+                <a type="button" class="btn btn-xs btn-default" href="<?php echo URL; ?>gallery/index/<?php if (isset($image[0]->id)) echo $image[0]->id++; ?>"> Previous </a>
                 <a type="button" class="btn btn-xs btn-default" href="<?php echo URL; ?>gallery/index/<?php if (isset($image[0]->id)) echo $image[0]->id; ?>"> Next </a>
             </div>
             <img class="img-responsive" src="<?php echo URL; ?><?php if (isset($image[0]->path)) echo $image[0]->path; ?>" alt="<?php if (isset($image[0]->name)) echo $image[0]->name; ?>">

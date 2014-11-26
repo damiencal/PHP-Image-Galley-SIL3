@@ -116,9 +116,9 @@ class GalleryModel
      * @param var $id ID
      */
     public function deleteImage($id){
-        $id = $id;
+        $id = strip_tags($id);
 
-        $sql = "DELETE * FROM image WHERE id = :id";
+        $sql = "DELETE FROM image WHERE id = :id";
         $query = $this->db->prepare($sql);
         $query->execute(array(':id' => $id));
 

@@ -24,9 +24,12 @@
                     </li>
                     <li><button type="button" class="btn btn-default btn-sm navbar-btn" href="#upload_modal" data-toggle="modal">Add Images</button>
                     </li>
-                    <li><button type="button" class="btn btn-default btn-sm navbar-btn" href="home/about">Images : <?php echo $amount_of_images; ?></button>
-                    </li>
+
                 </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><button type="button" class="btn btn-default btn-sm navbar-btn" href="home/about">Images : <?php echo $amount_of_images; ?></button>
+                </li>
+            </ul>
             </div>
         </div>
     </nav>
